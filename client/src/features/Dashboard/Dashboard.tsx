@@ -2,10 +2,13 @@ import { useEffect } from "react";
 import { fetchRecipes } from "./RecipeSlice";
 import { useNavigate } from "react-router";
 import { Recipe } from "../../types/state";
-import { useAppDispatch, useAppSelector } from "../../hooks";
+import { useAppSelector } from "../../app/hooks";
+import { ThunkDispatch } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
 
 const Dashboard = () => {
-  const dispatch = useAppDispatch();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const recipes = useAppSelector((state) => state.recipes.recipes);
   const navigate = useNavigate(); // Get the history object from React Router
 
@@ -23,7 +26,7 @@ const Dashboard = () => {
         Welcome to NeutritionsHub Recipes
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {recipes.map((recipe) => (
+        {recipes?.map((recipe: Recipe) => (
           <div
             className="bg-white rounded shadow p-4 cursor-pointer"
             key={recipe.id}

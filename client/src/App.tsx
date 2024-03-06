@@ -4,8 +4,10 @@ import Header from "./components/Header/Header";
 import About from "./components/About/About";
 import Dashboard from "./features/Dashboard/Dashboard";
 import RecipeDetail from "./features/Dashboard/RecipeDetails";
+import { Provider } from "react-redux";
+import { configureStoreWithMiddlewares } from "./app/store";
 
-function App() {
+export function App() {
   return (
     <div>
       <Header />
@@ -18,12 +20,13 @@ function App() {
   );
 }
 
-function WrappedApp() {
+export function WrappedApp() {
+  const store = configureStoreWithMiddlewares();
   return (
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
   );
 }
-
-export default WrappedApp;

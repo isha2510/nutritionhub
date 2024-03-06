@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "../../store";
+import type { RootState } from "../../app/store";
 import { Recipe } from "../../types/state";
 
 const API_URL = "http://localhost:3001/api/recipe"; // Replace with your actual API endpoint

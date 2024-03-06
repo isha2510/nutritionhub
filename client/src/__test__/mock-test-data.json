@@ -1,0 +1,28 @@
+[
+    {
+    "id": 1,
+    "title": "Samosa",
+    "description": "Samosa is a popular Indian snack that features a crispy, golden-brown pastry filled with a spiced mixture of mashed potatoes, peas, and sometimes meat. It's deep-fried to perfection, resulting in a delightful combination of crunchy exterior and flavorful interior.",
+    "ingredients": [
+    "2 cups boiled and mashed potatoes",
+    "1/2 cup boiled peas",
+    "1 teaspoon cumin seeds",
+    "1 teaspoon garam masala",
+    "1 teaspoon coriander powder",
+    "1/2 teaspoon turmeric powder",
+    "1 teaspoon ginger-garlic paste",
+    "Chopped coriander leaves",
+    "Salt to taste",
+    "Spring roll or samosa wrappers",
+    "Oil for frying"
+    ],
+    "instructions": [
+    "In a pan, heat oil and add cumin seeds. Once they splutter, add ginger-garlic paste.",
+    "Add mashed potatoes, boiled peas, and all the spices. Mix well and cook for a few minutes.",
+    "Allow the filling to cool. Take samosa wrappers and form cones, fill with the potato mixture.",
+    "Seal the edges and deep-fry until golden brown.",
+    "Serve hot with mint chutney or tamarind sauce."
+    ],
+    "image": "https://images.unsplash.com/photo-1601050690597-df0568f70950?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    }
+]
