@@ -3,7 +3,7 @@ import "./App.css";
 import Header from "./app/components/Header/Header";
 import About from "./app/components/About/About";
 import Dashboard from "./features/dashboard/components/Dashboard";
-import RecipeDetail from "./features/dashboard/components/RecipeDetails";
+import RecipeDetail from "./features/recipes/components/RecipeDetails";
 import { Provider } from "react-redux";
 import { configureStoreWithMiddlewares } from "./app/store/store";
 

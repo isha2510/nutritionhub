@@ -1,47 +1,36 @@
-import { useNavigate } from "react-router";
-import { Recipe } from "../types/state";
-import { useGetAllRecipesQuery } from "../../../app/api";
+import { Link } from "react-router-dom";
+import Recipes from "../../recipes/components/Recipes";
 
 const Dashboard = () => {
-  const { data: recipes, error, isLoading } = useGetAllRecipesQuery();
-  const navigate = useNavigate();
-
-  const handleRecipeClick = (recipe: Recipe) => {
-    navigate("/recipe-detail", { state: { recipe } }); // Navigate to the RecipeDetail component
-  };
-
   return (
-    <div>
-      {error ? (
-        <>Oh no, there was an error</>
-      ) : isLoading ? (
-        <>Loading...</>
-      ) : recipes ? (
-        <>
-          <h1 className="text-3xl font-bold mb-4">
-            Welcome to NeutritionsHub Recipes
-          </h1>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {recipes?.map((recipe: Recipe) => (
-              <div
-                className="bg-white rounded shadow p-4 cursor-pointer"
-                key={recipe.id}
-                onClick={() => handleRecipeClick(recipe)}
-              >
-                <img
-                  src={recipe.image}
-                  alt={recipe.title}
-                  className="w-full h-40 object-cover mb-4"
-                />
-                <h2 className="text-lg font-bold mb-2">{recipe.title}</h2>
-                <p className="text-gray-600">{recipe.description}</p>
-              </div>
-            ))}
-          </div>
-        </>
-      ) : (
-        ""
-      )}
+    <div className="container mx-auto">
+      <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="bg-white rounded shadow p-4">
+          <h2 className="text-lg font-bold mb-2">Doctor's Corner</h2>
+          <p className="mb-4">
+            Here you can contact a nutritionist or schedule an appointment.
+          </p>
+          <Link
+            to="/doctors"
+            className="bg-blue-500 text-white py-2 px-4 rounded"
+          >
+            Find a Doctor
+          </Link>
+        </div>
+
+        <div className="bg-white rounded shadow p-4">
+          <h2 className="text-lg font-bold mb-2">Weight Chart</h2>
+          <p className="mb-2">Target Weight: 150 lbs</p>
+          <p className="mb-2">Actual Weight: 200 lbs</p>
+          <button className="bg-blue-500 text-white py-2 px-4 rounded">
+            Update Weight
+          </button>
+        </div>
+
+        {/* Add other cards for exercise, labs, and recipes */}
+      </div>
     </div>
   );
 };
