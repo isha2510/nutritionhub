@@ -3,6 +3,6 @@ import data from "../test-utils/mock-test-data.json";
 
 export const handlers = [
   http.get("http://localhost:3001/api/recipe", () => {
-    return HttpResponse.json({ recipes: data });
+    return HttpResponse.json(data);
   }),
 ];
