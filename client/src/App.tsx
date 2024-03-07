@@ -1,11 +1,11 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Header from "./components/Header/Header";
-import About from "./components/About/About";
-import Dashboard from "./features/Dashboard/Dashboard";
-import RecipeDetail from "./features/Dashboard/RecipeDetails";
+import Header from "./app/components/Header/Header";
+import About from "./app/components/About/About";
+import Dashboard from "./features/dashboard/components/Dashboard";
+import RecipeDetail from "./features/dashboard/components/RecipeDetails";
 import { Provider } from "react-redux";
-import { configureStoreWithMiddlewares } from "./app/store";
+import { configureStoreWithMiddlewares } from "./app/store/store";
 
 export function App() {
   return (

@@ -8,7 +8,7 @@ import {
 import { ReactElement, ReactNode } from "react";
 import { Provider } from "react-redux";
 
-import { RootState, configureStoreWithMiddlewares } from "../app/store";
+import { RootState, configureStoreWithMiddlewares } from "../app/store/store";
 
 type CustomRenderOptions = {
   preloadedState?: RootState;

@@ -5,7 +5,7 @@ import {
   ThunkAction,
   configureStore,
 } from "@reduxjs/toolkit";
-import recipesReducer from "../features/Dashboard/RecipeSlice";
+import recipesReducer from "../../features/dashboard/redux/RecipeSlice";
 
 // eslint-disable-next-line prettier/prettier, @typescript-eslint/no-unused-vars
 export const configureStoreWithMiddlewares = (initialState = {}): EnhancedStore => {

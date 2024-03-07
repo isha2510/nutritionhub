@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { fetchRecipes } from "./RecipeSlice";
+import { fetchRecipes } from "../redux/RecipeSlice";
 import { useNavigate } from "react-router";
-import { Recipe } from "../../types/state";
-import { useAppSelector } from "../../app/hooks";
+import { Recipe } from "../types/state";
+import { useAppSelector } from "../../../app/store/hooks";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 
