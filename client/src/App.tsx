@@ -6,6 +6,10 @@ import Dashboard from "./features/dashboard/components/Dashboard";
 import RecipeDetail from "./features/recipes/components/RecipeDetails";
 import { Provider } from "react-redux";
 import { configureStoreWithMiddlewares } from "./app/store/store";
+import Recipes from "./features/recipes/components/Recipes";
+import Exercise from "./features/exercise/components/Exercise";
+import Labs from "./features/labs/components/Labs";
+import Doctor from "./features/doctor/components/Doctor";
 
 export function App() {
   return (
@@ -13,6 +17,10 @@ export function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Dashboard />} />
+        <Route path="/recipes" element={<Recipes />} />
+        <Route path="/exercise" element={<Exercise />} />
+        <Route path="/reports" element={<Labs />} />
+        <Route path="/nutritionist" element={<Doctor />} />
         <Route path="/recipe-detail" element={<RecipeDetail />} />
         <Route path="/about" element={<About />} />
       </Routes>
