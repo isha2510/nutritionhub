@@ -19,7 +19,7 @@ const Recipes = () => {
       ) : recipes ? (
         <>
           <h1 className="text-3xl font-bold mb-4">
-            Welcome to NeutritionsHub Recipes
+            Welcome to Nutritionhub Recipes
           </h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {recipes?.map((recipe: Recipe) => (
