@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config({path: __dirname + '/.env'})
 const cors = require('cors'); // Enable CORS
 const { auth } = require('express-oauth2-jwt-bearer');
 const recipeRouter = require('./routes/recipe/recipe');
@@ -11,9 +12,9 @@ app.use(cors()); // Allow cross-origin requests from any origin (adjust as neede
 app.use(express.json()); // Parse JSON request bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded request bodies
 const jwtCheck = auth({
-    audience: 'https://www.nutritionhub.com',
-    issuerBaseURL: 'https://dev-j8r4za1686l0mkr7.uk.auth0.com/',
-    tokenSigningAlg: 'RS256'
+    audience: process.env.AUDIENCE,
+    issuerBaseURL: process.env.ISSUER_BASE_URL,
+    tokenSigningAlg: process.env.ALGORITHM
   });
   
   // enforce on all endpoints

@@ -99,8 +99,9 @@ export function WrappedApp() {
       authorizationParams={{
         redirect_uri: `${window.location.origin}/dashboard`,
         audience: "https://www.nutritionhub.com",
-        scope: "openid profile email",
+        scope: "openid profile email offline_access",
       }}
+      useRefreshTokens={true}
     >
       <Provider store={store}>
         <BrowserRouter>
