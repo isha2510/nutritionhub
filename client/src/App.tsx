@@ -10,19 +10,81 @@ import Recipes from "./features/recipes/components/Recipes";
 import Exercise from "./features/exercise/components/Exercise";
 import Labs from "./features/labs/components/Labs";
 import Doctor from "./features/doctor/components/Doctor";
+import { Auth0Provider } from "@auth0/auth0-react";
+import LandingPage from "./app/components/Landing Page/LandingPage";
+import Profile from "./app/components/Profile/Profile";
+import PrivateRoute from "./app/components/Private Route/PrivateRoute";
 
 export function App() {
   return (
     <div>
       <Header />
       <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/recipes" element={<Recipes />} />
-        <Route path="/exercise" element={<Exercise />} />
-        <Route path="/reports" element={<Labs />} />
-        <Route path="/nutritionist" element={<Doctor />} />
-        <Route path="/recipe-detail" element={<RecipeDetail />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/recipes"
+          element={
+            <PrivateRoute>
+              <Recipes />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/exercise"
+          element={
+            <PrivateRoute>
+              <Exercise />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/reports"
+          element={
+            <PrivateRoute>
+              <Labs />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/nutritionist"
+          element={
+            <PrivateRoute>
+              <Doctor />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/recipe-detail"
+          element={
+            <PrivateRoute>
+              <RecipeDetail />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/about"
+          element={
+            <PrivateRoute>
+              <About />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoute>
+              <Profile />
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </div>
   );
@@ -31,10 +93,20 @@ export function App() {
 export function WrappedApp() {
   const store = configureStoreWithMiddlewares();
   return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </Provider>
+    <Auth0Provider
+      domain="dev-j8r4za1686l0mkr7.uk.auth0.com"
+      clientId="CERpYJbACTex2vjYNRYmX85eRKmvpHXO"
+      authorizationParams={{
+        redirect_uri: `${window.location.origin}/dashboard`,
+        audience: "https://www.nutritionhub.com",
+        scope: "openid profile email offline_access",
+      }}
+    >
+      <Provider store={store}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>
+    </Auth0Provider>
   );
 }

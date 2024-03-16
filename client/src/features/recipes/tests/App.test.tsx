@@ -21,7 +21,7 @@ describe("App", () => {
         screen.getByText(/Indian snack that features a crispy/i),
       ).toBeInTheDocument();
       expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-        "Welcome to NeutritionsHub Recipes",
+        "Welcome to Nutritionhub Recipes",
       );
     });
   });
