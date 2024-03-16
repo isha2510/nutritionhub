@@ -101,7 +101,6 @@ export function WrappedApp() {
         audience: "https://www.nutritionhub.com",
         scope: "openid profile email offline_access",
       }}
-      useRefreshTokens={true}
     >
       <Provider store={store}>
         <BrowserRouter>

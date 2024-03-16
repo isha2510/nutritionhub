@@ -10,7 +10,7 @@ const Header = () => {
       sessionStorage.setItem("token", await getAccessTokenSilently());
     };
     getToken();
-  }, []);
+  }, [getAccessTokenSilently]);
 
   return (
     <nav className="flex items-center justify-between bg-indigo-500 py-4 px-6">
