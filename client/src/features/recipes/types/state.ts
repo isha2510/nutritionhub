@@ -5,7 +5,7 @@ export interface RootState {
 }
 
 export interface Recipe {
-  id: number;
+  _id: number;
   title: string;
   description: string;
   ingredients: string;
