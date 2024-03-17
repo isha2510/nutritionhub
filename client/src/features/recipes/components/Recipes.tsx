@@ -25,7 +25,7 @@ const Recipes = () => {
             {recipes?.map((recipe: Recipe) => (
               <div
                 className="bg-white rounded shadow p-4 cursor-pointer"
-                key={recipe.id}
+                key={recipe._id}
                 onClick={() => handleRecipeClick(recipe)}
               >
                 <img
