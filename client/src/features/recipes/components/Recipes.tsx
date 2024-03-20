@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router";
 import { Recipe } from "../types/state";
 import { useGetAllRecipesQuery } from "../../../app/api";
+import Loader from "../../../app/components/Loader/Loader";
 
 const Recipes = () => {
   const { data: recipes, error, isLoading } = useGetAllRecipesQuery();
@@ -15,7 +16,9 @@ const Recipes = () => {
       {error ? (
         <>Oh no, there was an error</>
       ) : isLoading ? (
-        <>Loading...</>
+        <>
+          <Loader />
+        </>
       ) : recipes ? (
         <>
           <h1 className="text-3xl font-bold mb-4">
