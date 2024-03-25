@@ -3,9 +3,13 @@ import Loader from "../Loader/Loader";
 
 const Profile = () => {
   const { user, isLoading } = useAuth0();
-  const userDetails = user!;
+
   if (isLoading) {
     return <Loader />;
+  }
+
+  if (!user) {
+    throw new Error("User is not defined in useAuth0 hook");
   }
 
   return (
@@ -15,7 +19,7 @@ const Profile = () => {
           <div className="w-full flex justify-center">
             <div className="relative">
               <img
-                src={userDetails.picture}
+                src={user.picture}
                 className="shadow-xl rounded-full align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-[150px]"
               />
             </div>
@@ -46,11 +50,11 @@ const Profile = () => {
         </div>
         <div className="text-center mt-2">
           <h3 className="text-2xl text-slate-700 font-bold leading-normal mb-1">
-            {userDetails.nickname}
+            {user.nickname}
           </h3>
           <div className="text-xs mt-0 mb-2 text-slate-400 font-bold uppercase">
             <i className="fas fa-map-marker-alt mr-2 text-slate-400 opacity-75"></i>
-            {userDetails.email}
+            {user.email}
           </div>
         </div>
         <div className="mt-6 py-6 border-t border-slate-200 text-center">
