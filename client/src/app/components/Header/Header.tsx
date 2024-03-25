@@ -1,6 +1,8 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import logo from "../../assets/logo.png";
+
 const Header = () => {
   const { logout, isAuthenticated, loginWithRedirect, getAccessTokenSilently } =
     useAuth0();
@@ -13,8 +15,11 @@ const Header = () => {
   }, [getAccessTokenSilently]);
 
   return (
-    <nav className="flex items-center justify-between bg-indigo-500 py-4 px-6">
-      <div className="text-white text-xl font-bold">Nutritionhub</div>
+    <nav className="flex justify-between bg-gradient-to-br from-purple-900 to-purple-400 pr-4">
+      <img src={logo} alt="" className="w-20 h-20" />
+      {/* <div className="text-white text-lg font-bold text-shadow">
+        Nutrition hub
+      </div> */}
       <div className="flex items-center text-white">
         {isAuthenticated ? (
           <>
