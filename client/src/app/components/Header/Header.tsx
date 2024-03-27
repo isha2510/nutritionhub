@@ -16,7 +16,7 @@ const Header = () => {
 
   return (
     <nav className="flex justify-between bg-gradient-to-br from-purple-900 to-purple-400 pr-4">
-      <img src={logo} alt="" className="w-20 h-20" />
+      <img src={logo} alt="" className="w-20 h-16" />
       {/* <div className="text-white text-lg font-bold text-shadow">
         Nutrition hub
       </div> */}
