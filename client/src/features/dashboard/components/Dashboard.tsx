@@ -3,7 +3,7 @@ import WeightChart from "../../weight/components/Weight";
 import nutritionist from "../../../app/assets/nutritionist.jpg";
 import exercise from "../../../app/assets/exercise.avif";
 import recipe from "../../../app/assets/recipe.jpeg";
-import report from "../../../app/assets/report.png";
+import report from "../../../app/assets/report.avif";
 
 const Dashboard = () => {
   const cardsDetails = [
@@ -18,7 +18,7 @@ const Dashboard = () => {
     {
       title: "Recipes Corner",
       description:
-        "Find the tasty recipes list and save your time while cooking. No more wasting time on what to cook.",
+        "Find the tasty recipes list and save your time while cooking.",
       buttonName: "Find a Recipe",
       buttonLink: "/recipes",
       image: recipe,
@@ -44,7 +44,7 @@ const Dashboard = () => {
     <div className="container mx-auto flex">
       {/* <h1 className="text-3xl font-bold mb-4">Dashboard</h1> */}
 
-      <div className="flex flex-row p-4">
+      <div className="flex flex-row p-4 flex-wrap">
         {cardsDetails.map((val, index) => (
           <div key={index} className="w-1/2 mb-4">
             <Card
@@ -58,7 +58,7 @@ const Dashboard = () => {
         ))}
       </div>
 
-      <div className="flex justify-center items-center w-1/4 p-4">
+      <div className="flex justify-center items-start w-1/4 p-4">
         <WeightChart />
       </div>
     </div>

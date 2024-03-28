@@ -2,6 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
+import DarkModeSwitcher from "./DarkModeSwitcher";
 
 const Header = () => {
   const { logout, isAuthenticated, loginWithRedirect, getAccessTokenSilently } =
@@ -23,7 +24,8 @@ const Header = () => {
       <div className="flex items-center text-white">
         {isAuthenticated ? (
           <>
-            <Link to="/dashboard" className="mr-4">
+            <DarkModeSwitcher />
+            <Link to="/dashboard" className="mr-4 ml-4">
               Home
             </Link>
             <Link to="/about" className="mr-4">
@@ -31,6 +33,9 @@ const Header = () => {
             </Link>
             <Link to="/profile" className="mr-4">
               Profile
+            </Link>
+            <Link to="/settings" className="mr-4">
+              Settings
             </Link>
             <button
               onClick={() =>

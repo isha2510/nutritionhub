@@ -17,75 +17,77 @@ import PrivateRoute from "./app/components/Private Route/PrivateRoute";
 
 export function App() {
   return (
-    <div>
+    <div className="dark:bg-boxdark-2 dark:text-bodydark">
       <Header />
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route
-          path="/dashboard"
-          element={
-            <PrivateRoute>
-              <Dashboard />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/recipes"
-          element={
-            <PrivateRoute>
-              <Recipes />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/exercise"
-          element={
-            <PrivateRoute>
-              <Exercise />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/reports"
-          element={
-            <PrivateRoute>
-              <Labs />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/nutritionist"
-          element={
-            <PrivateRoute>
-              <Doctor />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/recipe-detail"
-          element={
-            <PrivateRoute>
-              <RecipeDetail />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/about"
-          element={
-            <PrivateRoute>
-              <About />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <PrivateRoute>
-              <Profile />
-            </PrivateRoute>
-          }
-        />
-      </Routes>
+      <div className="dark:bg-boxdark-2 dark:text-bodydark mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route
+            path="/dashboard"
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/recipes"
+            element={
+              <PrivateRoute>
+                <Recipes />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/exercise"
+            element={
+              <PrivateRoute>
+                <Exercise />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/reports"
+            element={
+              <PrivateRoute>
+                <Labs />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/nutritionist"
+            element={
+              <PrivateRoute>
+                <Doctor />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/recipe-detail"
+            element={
+              <PrivateRoute>
+                <RecipeDetail />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/about"
+            element={
+              <PrivateRoute>
+                <About />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <Profile />
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+      </div>
     </div>
   );
 }
