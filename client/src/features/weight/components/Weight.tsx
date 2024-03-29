@@ -36,10 +36,20 @@ const data = [
 // Define the WeightChart component
 const WeightChart = () => {
   return (
-    <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <div className="bg-white border-stroke rounded-lg shadow-default px-5 pt-7.5 pb-5 mr-7 dark:border-strokedark dark:bg-boxdark">
+      <div className="flex min-w-47.5 justify-between">
+        <div className="w-full pl-8 pb-4">
+          <p className="font-semibold text-primary">Target Weight</p>
+          <p className="text-sm font-medium">60Kg</p>
+        </div>
+        <div className="w-full">
+          <p className="font-semibold text-primary">Current Weight</p>
+          <p className="text-sm font-medium">70Kg</p>
+        </div>
+      </div>
       <LineChart
-        width={400}
-        height={350}
+        width={600}
+        height={200}
         data={data}
         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
       >
@@ -56,14 +66,7 @@ const WeightChart = () => {
         />
       </LineChart>
       <div className="p-5">
-        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-          Weight Chart
-        </h5>
-
-        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-          Track your weight goals and stay on top of your health.
-        </p>
-        <LinkButton name="Update target weight" link="/updateweigth" />
+        <LinkButton name="Update Target Weight" link="/updateweigth" />
       </div>
     </div>
   );

@@ -45,21 +45,45 @@ const Dashboard = () => {
       {/* <h1 className="text-3xl font-bold mb-4">Dashboard</h1> */}
 
       <div className="flex flex-row p-4 flex-wrap">
-        {cardsDetails.map((val, index) => (
-          <div key={index} className="w-1/2 mb-4">
-            <Card
-              title={val.title}
-              buttonLink={val.buttonLink}
-              buttonName={val.buttonName}
-              description={val.description}
-              image={val.image}
-            />
-          </div>
-        ))}
-      </div>
-
-      <div className="flex justify-center items-start w-1/4 p-4">
-        <WeightChart />
+        <div className="w-1/3 mb-4">
+          <Card
+            title={cardsDetails[0].title}
+            buttonLink={cardsDetails[0].buttonLink}
+            buttonName={cardsDetails[0].buttonName}
+            description={cardsDetails[0].description}
+            image={cardsDetails[0].image}
+          />
+        </div>
+        <div className="w-1/3 mb-4">
+          <Card
+            title={cardsDetails[1].title}
+            buttonLink={cardsDetails[1].buttonLink}
+            buttonName={cardsDetails[1].buttonName}
+            description={cardsDetails[1].description}
+            image={cardsDetails[1].image}
+          />
+        </div>
+        <div className="w-1/3 mb-4">
+          <Card
+            title={cardsDetails[2].title}
+            buttonLink={cardsDetails[2].buttonLink}
+            buttonName={cardsDetails[2].buttonName}
+            description={cardsDetails[2].description}
+            image={cardsDetails[2].image}
+          />
+        </div>
+        <div className="flex-grow mb-4">
+          <WeightChart />
+        </div>
+        <div className="w-1/3 mb-4">
+          <Card
+            title={cardsDetails[3].title}
+            buttonLink={cardsDetails[3].buttonLink}
+            buttonName={cardsDetails[3].buttonName}
+            description={cardsDetails[3].description}
+            image={cardsDetails[3].image}
+          />
+        </div>
       </div>
     </div>
   );
