@@ -2,6 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
+import DarkModeSwitcher from "./DarkModeSwitcher";
 
 const Header = () => {
   const { logout, isAuthenticated, loginWithRedirect, getAccessTokenSilently } =
@@ -16,14 +17,15 @@ const Header = () => {
 
   return (
     <nav className="flex justify-between bg-gradient-to-br from-purple-900 to-purple-400 pr-4">
-      <img src={logo} alt="" className="w-20 h-20" />
+      <img src={logo} alt="" className="w-20 h-16" />
       {/* <div className="text-white text-lg font-bold text-shadow">
         Nutrition hub
       </div> */}
       <div className="flex items-center text-white">
         {isAuthenticated ? (
           <>
-            <Link to="/dashboard" className="mr-4">
+            <DarkModeSwitcher />
+            <Link to="/dashboard" className="mr-4 ml-4">
               Home
             </Link>
             <Link to="/about" className="mr-4">
