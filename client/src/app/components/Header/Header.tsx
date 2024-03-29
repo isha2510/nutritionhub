@@ -34,9 +34,6 @@ const Header = () => {
             <Link to="/profile" className="mr-4">
               Profile
             </Link>
-            <Link to="/settings" className="mr-4">
-              Settings
-            </Link>
             <button
               onClick={() =>
                 logout({ logoutParams: { returnTo: window.location.origin } })
