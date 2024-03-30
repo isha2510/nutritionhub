@@ -1,4 +1,5 @@
-import { Document, Schema, model } from "mongoose";
+import { Document, Schema, Types, model } from "mongoose";
+import MUser from "./User";
 
 export type TRecipe = {
   title: string;
@@ -6,6 +7,7 @@ export type TRecipe = {
   ingredients: string[];
   instructions: string[];
   image: string;
+  user: string;
 };
 
 export interface IRecipe extends TRecipe, Document { }
@@ -20,11 +22,16 @@ const recipeSchema: Schema = new Schema({
   },
   ingredients: [String],
   instructions: [String],
-  imgage: String
+  imgage: String,
+  user: {
+    type: Types.ObjectId,
+    ref: MUser,
+    required: true
+  }
 
 }, { timestamps: true });
 
 
-const Receipe = model<IRecipe>('recipes', recipeSchema);
+const MReceipe = model<IRecipe>('recipes', recipeSchema);
 
-export default Receipe;
+export default MReceipe;

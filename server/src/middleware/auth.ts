@@ -3,6 +3,13 @@ import { NextFunction, Request, Response } from 'express';
 import { auth } from 'express-oauth2-jwt-bearer';
 import { JWTPayload } from '../types/JWTPayload';
 import HttpStatus from 'http-status-codes';
+import axios from "axios";
+import MUser, { TUser } from '../model/User';
+import MReceipe, { IRecipe, TRecipe } from '../model/Recipe';
+
+interface CustomRequest extends Request {
+    user?: TUser;
+}
 
 function jwtCheck() {
     return auth({
@@ -12,10 +19,37 @@ function jwtCheck() {
     });
 };
 
+async function userCheck(req: CustomRequest, res: Response, next: NextFunction) {
+    if (req.headers && req.headers.authorization) {
+        const user = await getUserInfo(req.headers.authorization);
+        req.user = user;
+        next();
+    } else {
+        next();
+    }
+}
+
+async function getUserInfo(accessToken: string): Promise<TUser> {
+
+    const response = await axios.get(process.env.ISSUER_BASE_URL + 'userinfo', {
+        headers: {
+            Authorization: accessToken
+        }
+    });
+    const authUser = response.data as TUser;
+    if (authUser) {
+        let user = await MUser.findOne({ email: authUser.email });
+        if (!user) {
+            user = await MUser.create(authUser);
+        }
+        return user;
+    }
+    throw new Error("user is null");
+}
+
 function hasRole(...allowedRoles: string[]) {
-    return (req: Request, res: Response, next: NextFunction) => {
+    return (req: CustomRequest, res: Response, next: NextFunction) => {
         const payload = req.auth!.payload as JWTPayload;
-        console.log(payload.permissions);
         const roles = payload['https://www.nutritionhub.com/roles'];
         console.log(roles);
 
@@ -30,4 +64,4 @@ function hasRole(...allowedRoles: string[]) {
 }
 
 
-export { jwtCheck, hasRole };
+export { jwtCheck, hasRole, userCheck };
