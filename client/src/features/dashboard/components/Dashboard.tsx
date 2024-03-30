@@ -45,33 +45,20 @@ const Dashboard = () => {
       {/* <h1 className="text-3xl font-bold mb-4">Dashboard</h1> */}
 
       <div className="flex flex-row p-4 flex-wrap">
-        <div className="w-1/3 mb-4">
-          <Card
-            title={cardsDetails[0].title}
-            buttonLink={cardsDetails[0].buttonLink}
-            buttonName={cardsDetails[0].buttonName}
-            description={cardsDetails[0].description}
-            image={cardsDetails[0].image}
-          />
-        </div>
-        <div className="w-1/3 mb-4">
-          <Card
-            title={cardsDetails[1].title}
-            buttonLink={cardsDetails[1].buttonLink}
-            buttonName={cardsDetails[1].buttonName}
-            description={cardsDetails[1].description}
-            image={cardsDetails[1].image}
-          />
-        </div>
-        <div className="w-1/3 mb-4">
-          <Card
-            title={cardsDetails[2].title}
-            buttonLink={cardsDetails[2].buttonLink}
-            buttonName={cardsDetails[2].buttonName}
-            description={cardsDetails[2].description}
-            image={cardsDetails[2].image}
-          />
-        </div>
+        {cardsDetails.slice(0, -1).map((cd, index) => {
+          return (
+            <div className="w-1/3 mb-4" key={index}>
+              <Card
+                title={cd.title}
+                buttonLink={cd.buttonLink}
+                buttonName={cd.buttonName}
+                description={cd.description}
+                image={cd.image}
+              />
+            </div>
+          );
+        })}
+
         <div className="flex-grow mb-4">
           <WeightChart />
         </div>

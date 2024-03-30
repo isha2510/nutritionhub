@@ -1,50 +1,62 @@
 import { useNavigate } from "react-router";
 import { Recipe } from "../types/state";
 import { useGetAllRecipesQuery } from "../../../app/api";
-import Loader from "../../../app/components/Loader/Loader";
+import Breadcrumb from "../../../app/components/Breadcrumb/Breadcrumb";
+import Loading from "../../../app/components/Loader/Loading";
+import LinkButton from "../../../app/components/Button/LinkButton";
 
 const Recipes = () => {
   const { data: recipes, error, isLoading } = useGetAllRecipesQuery();
   const navigate = useNavigate();
 
   const handleRecipeClick = (recipe: Recipe) => {
-    navigate("/recipe-detail", { state: { recipe } }); // Navigate to the RecipeDetail component
+    navigate(`/recipes/${recipe._id}`); // Navigate to the RecipeDetail component
   };
 
   return (
     <div>
-      {error ? (
-        <>Oh no, there was an error</>
-      ) : isLoading ? (
-        <>
-          <Loader />
-        </>
-      ) : recipes ? (
-        <>
-          <h1 className="text-3xl font-bold mb-4">
-            Welcome to Nutritionhub Recipes
-          </h1>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {recipes?.map((recipe: Recipe) => (
-              <div
-                className="bg-white rounded shadow p-4 cursor-pointer"
-                key={recipe._id}
-                onClick={() => handleRecipeClick(recipe)}
-              >
-                <img
-                  src={recipe.image}
-                  alt={recipe.title}
-                  className="w-full h-40 object-cover mb-4"
-                />
-                <h2 className="text-lg font-bold mb-2">{recipe.title}</h2>
-                <p className="text-gray-600">{recipe.description}</p>
+      <Loading isLoading={isLoading} error={error}>
+        {recipes && (
+          <>
+            <Breadcrumb pageName="Recipes" prevPath={null} />
+            <div className="mb-2">
+              <LinkButton name={"Create Recipe"} link={"/add-recipe"} />
+            </div>
+            <section className="text-gray-600 body-font">
+              <div className="mx-auto">
+                <div className="flex flex-wrap">
+                  {recipes.map((recipe: Recipe) => (
+                    <div
+                      className="p-3 md:w-1/3 cursor-pointer"
+                      key={recipe._id}
+                      onClick={() => handleRecipeClick(recipe)}
+                    >
+                      <div className="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
+                        <img
+                          className="lg:h-48 md:h-36 w-full object-cover object-center"
+                          src={recipe.image}
+                          alt={recipe.title}
+                        />
+                        <div className="p-6">
+                          <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">
+                            Title
+                          </h2>
+                          <h1 className="title-font text-lg font-medium text-gray-900 mb-3">
+                            {recipe.title}
+                          </h1>
+                          <p className="leading-relaxed">
+                            {recipe.description}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            ))}
-          </div>
-        </>
-      ) : (
-        ""
-      )}
+            </section>
+          </>
+        )}
+      </Loading>
     </div>
   );
 };

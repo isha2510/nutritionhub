@@ -4,7 +4,7 @@ import Breadcrumb from "../../../app/components/Breadcrumb/Breadcrumb";
 const Settings = () => {
   return (
     <div className="mx-auto max-w-270">
-      <Breadcrumb pageName="Settings" />
+      <Breadcrumb pageName="Settings" prevPath={null} />
       <div className="grid grid-cols-5 gap-8">
         <div className="col-span-5 xl:col-span-3">
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">

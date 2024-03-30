@@ -14,7 +14,10 @@ export const recipesApi = createApi({
     getAllRecipes: builder.query<Recipe[], void>({
       query: () => "recipe",
     }),
+    fetchRecipeById: builder.query<Recipe, string>({
+      query: (id) => ({ url: `recipe/${id}` }),
+    }),
   }),
 });
 
-export const { useGetAllRecipesQuery } = recipesApi;
+export const { useGetAllRecipesQuery, useFetchRecipeByIdQuery } = recipesApi;

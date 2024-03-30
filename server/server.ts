@@ -3,7 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import recipeRouter from './src/routes/recipe/recipe.router';
 import connectDB from './src/config/database';
-import { jwtCheck } from './src/middleware/auth';
+import { jwtCheck, userCheck } from './src/middleware/auth';
 import chalk from 'chalk';
 
 // Load environment variables from .env file
@@ -21,6 +21,7 @@ app.use(express.json()); // Parse JSON request bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded request bodies
 // auth0 verify token and add auth object to req.auth
 app.use(jwtCheck());
+app.use(userCheck);
 
 // Your API routes
 
