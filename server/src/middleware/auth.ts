@@ -4,11 +4,11 @@ import { auth } from 'express-oauth2-jwt-bearer';
 import { JWTPayload } from '../types/JWTPayload';
 import HttpStatus from 'http-status-codes';
 import axios from "axios";
-import MUser, { TUser } from '../model/User';
+import MUser, { IUser, TUser } from '../model/User';
 import MReceipe, { IRecipe, TRecipe } from '../model/Recipe';
 
-interface CustomRequest extends Request {
-    user?: TUser;
+export interface CustomRequest extends Request {
+    user?: IUser;
 }
 
 function jwtCheck() {
@@ -29,7 +29,7 @@ async function userCheck(req: CustomRequest, res: Response, next: NextFunction) 
     }
 }
 
-async function getUserInfo(accessToken: string): Promise<TUser> {
+async function getUserInfo(accessToken: string): Promise<IUser> {
 
     const response = await axios.get(process.env.ISSUER_BASE_URL + 'userinfo', {
         headers: {

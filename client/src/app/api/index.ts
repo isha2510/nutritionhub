@@ -6,18 +6,27 @@ import { Recipe } from "../../features/recipes/types/state";
 export const recipesApi = createApi({
   reducerPath: "recipesApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3001/api/",
+    baseUrl: "http://localhost:3001/api",
     headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
   }),
 
   endpoints: (builder) => ({
     getAllRecipes: builder.query<Recipe[], void>({
-      query: () => "recipe",
+      query: () => "/recipe",
     }),
     fetchRecipeById: builder.query<Recipe, string>({
-      query: (id) => ({ url: `recipe/${id}` }),
+      query: (id) => ({ url: `/recipe/${id}` }),
+    }),
+    createRecipe: builder.mutation<void, Recipe>({
+      query: (recipe) => ({
+        url: "/recipe",
+        method: "POST",
+        body: recipe,
+      })
     }),
   }),
 });
 
-export const { useGetAllRecipesQuery, useFetchRecipeByIdQuery } = recipesApi;
+
+
+export const { useGetAllRecipesQuery, useFetchRecipeByIdQuery, useCreateRecipeMutation } = recipesApi;

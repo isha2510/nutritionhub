@@ -4,11 +4,17 @@ export interface RootState {
   };
 }
 
+interface User {
+  _id: number,
+  email: string
+}
+
 export interface Recipe {
-  _id: number;
+  _id?: number;
   title: string;
   description: string;
   ingredients: string;
   instructions: string;
   image: string;
+  user?: User
 }
