@@ -22,7 +22,7 @@ const recipeSchema: Schema = new Schema({
   },
   ingredients: [String],
   instructions: [String],
-  imgage: String,
+  image: String,
   user: {
     type: Types.ObjectId,
     ref: MUser,

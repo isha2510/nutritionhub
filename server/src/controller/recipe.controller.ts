@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
-import MRecipe, { IRecipe } from "../model/Recipe";
+import MRecipe, { IRecipe, TRecipe } from "../model/Recipe";
 import chalk from "chalk";
 import HttpStatus from 'http-status-codes';
+import { CustomRequest } from "../middleware/auth";
 
 
 export async function findAll(req: Request, res: Response) {
@@ -18,6 +19,20 @@ export async function findByRecipeId(req: Request, res: Response) {
         select: "email"
     });
     res.send(recipe);
+}
+
+export async function createRecipe(req: CustomRequest, res: Response) {
+    console.log(chalk.magentaBright("inside create Recipe:"), req.body as TRecipe);
+    if (req.user) {
+        const recipe = req.body as TRecipe;
+        const newRecipe = new MRecipe({ ...recipe, user: req.user._id });
+        await newRecipe.save();
+        console.log(chalk.greenBright("Recipe created success.."));
+        res.status(HttpStatus.CREATED).send();
+    } else {
+        res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({ error: 'user is not present please relogin.' });
+    }
+
 }
 
 export async function deleteByRecipeId(req: Request, res: Response) {
