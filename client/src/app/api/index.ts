@@ -7,7 +7,7 @@ export const recipesApi = createApi({
   reducerPath: "recipesApi",
   baseQuery: fetchBaseQuery({
     baseUrl:
-      process.env.NODE_ENV === "production"
+      process.env.DEPLOY_PLATFORM === "netlify"
         ? "https://nutritionhub-api.netlify.app/api"
         : "http://localhost:3001/api",
     headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
