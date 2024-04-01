@@ -6,16 +6,16 @@ import { Recipe } from "../../features/recipes/types/state";
 export const recipesApi = createApi({
   reducerPath: "recipesApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3001/api/",
-    headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
+    baseUrl: "/api",
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
   }),
 
   endpoints: (builder) => ({
     getAllRecipes: builder.query<Recipe[], void>({
-      query: () => "recipe",
+      query: () => "/recipe",
     }),
     fetchRecipeById: builder.query<Recipe, string>({
-      query: (id) => ({ url: `recipe/${id}` }),
+      query: (id) => ({ url: `/recipe/${id}` }),
     }),
   }),
 });

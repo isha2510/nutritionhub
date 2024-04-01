@@ -11,6 +11,7 @@ const Header = () => {
   useEffect(() => {
     const getToken = async () => {
       sessionStorage.setItem("token", await getAccessTokenSilently());
+      localStorage.setItem("token", await getAccessTokenSilently());
     };
     getToken();
   }, [getAccessTokenSilently]);

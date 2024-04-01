@@ -5,7 +5,8 @@
   "main": "src/server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node -r tsconfig-paths/register server.ts",
+    "start": "tsc && node ./dist/server.js",
+    "start-ts": "ts-node -r tsconfig-paths/register server.ts",
     "tsc": "tsc",
     "watch-tsc": "tsc -w",
     "deploy": "node ./dist/server.js",

@@ -1,0 +1,43 @@
+# .dockerignore
+
+# Ignore the node_modules folder
+node_modules
+
+# # Ignore the dist folder
+# client/dist
+
+# Ignore the coverage folder
+coverage
+
+# Ignore the .nyc_output folder
+.nyc_output
+
+# Ignore the .env file
+.env
+
+# Ignore the .dockerignore file
+.dockerignore
+
+# Ignore the Dockerfile
+Dockerfile
+
+# Ignore the npm-debug.log file
+npm-debug.log
+
+# Ignore the .git folder
+.git
+
+# Ignore the .vscode folder
+.vscode
+
+# Ignore the yarn.lock file
+yarn.lock
+
+# Ignore the package-lock.json file
+package-lock.json
+
+# Ignore the client/node_modules folder
+client/node_modules
+
+# Ignore the server/node_modules folder
+server/node_modules
