@@ -1,0 +1,9 @@
+[[redirects]]
+  from = "/*"
+  to = "/"
+  status = 200
+
+[[redirects]]
+  from = "/netlify-site/*"
+  to = "https://nutritionhub-api.netlify.app/:splat"
+  status = 200

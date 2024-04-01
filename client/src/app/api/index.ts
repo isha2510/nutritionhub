@@ -6,7 +6,9 @@ import { Recipe } from "../../features/recipes/types/state";
 export const recipesApi = createApi({
   reducerPath: "recipesApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3001/api",
+    baseUrl: window.location.origin.includes("netlify")
+      ? "https://nutritionhub-api.netlify.app/api"
+      : "http://localhost:3001/api",
     headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
   }),
 
@@ -22,11 +24,13 @@ export const recipesApi = createApi({
         url: "/recipe",
         method: "POST",
         body: recipe,
-      })
+      }),
     }),
   }),
 });
 
-
-
-export const { useGetAllRecipesQuery, useFetchRecipeByIdQuery, useCreateRecipeMutation } = recipesApi;
+export const {
+  useGetAllRecipesQuery,
+  useFetchRecipeByIdQuery,
+  useCreateRecipeMutation,
+} = recipesApi;

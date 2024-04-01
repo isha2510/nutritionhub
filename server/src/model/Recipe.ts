@@ -24,7 +24,7 @@ const recipeSchema: Schema = new Schema({
   instructions: [String],
   image: String,
   user: {
-    type: Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: MUser,
     required: true
   }
