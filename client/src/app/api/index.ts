@@ -22,11 +22,13 @@ export const recipesApi = createApi({
         url: "/recipe",
         method: "POST",
         body: recipe,
-      })
+      }),
     }),
   }),
 });
 
-
-
-export const { useGetAllRecipesQuery, useFetchRecipeByIdQuery, useCreateRecipeMutation } = recipesApi;
+export const {
+  useGetAllRecipesQuery,
+  useFetchRecipeByIdQuery,
+  useCreateRecipeMutation,
+} = recipesApi;
