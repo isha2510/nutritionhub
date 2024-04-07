@@ -6,8 +6,6 @@ import Loading from "../../../app/components/Loader/Loading";
 const RecipeDetail = () => {
   const params = useParams();
   const id = params.id!;
-  console.log("id=", id);
-  //const { recipe } = location.state;
   const { data, isLoading, error } = useFetchRecipeByIdQuery(id);
   const recipe = data!;
   return (

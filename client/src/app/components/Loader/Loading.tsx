@@ -11,7 +11,7 @@ interface LoadingProps {
 
 const Loading = ({ isLoading, error, children }: LoadingProps) => {
   if (error) {
-    return <>Oh no, there was an error</>;
+    return <>Oh no, there was an error.{error}</>;
   }
 
   if (isLoading) {

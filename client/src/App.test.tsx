@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { screen, waitFor } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, test, vi } from "vitest";
 import { App } from "./App";
@@ -23,17 +23,5 @@ describe("App", () => {
         name: /sign in/i,
       }),
     ).toBeInTheDocument();
-    // screen.logTestingPlaygroundURL();
-    // await waitFor(() => {
-    //   expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(
-    //     /Samosa/i,
-    //   );
-    //   expect(
-    //     screen.getByText(/Indian snack that features a crispy/i),
-    //   ).toBeInTheDocument();
-    //   expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-    //     "Welcome to Nutritionhub Recipes",
-    //   );
-    // });
   });
 });

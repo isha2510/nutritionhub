@@ -28,7 +28,7 @@ describe("Dashboard", () => {
     expect(nutritionist).toBeInTheDocument();
     expect(recipes).toBeInTheDocument();
   });
-  test("renders the recipes page", async () => {
+  test("renders the nutritionist page", async () => {
     render(
       <MemoryRouter initialEntries={["/dashboard"]}>
         <Dashboard />
