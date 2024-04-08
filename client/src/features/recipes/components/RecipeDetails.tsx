@@ -2,6 +2,7 @@ import { useParams } from "react-router"; // Assuming you're using React Router
 import Breadcrumb from "../../../app/components/Breadcrumb/Breadcrumb";
 import { useFetchRecipeByIdQuery } from "../../../app/api";
 import Loading from "../../../app/components/Loader/Loading";
+import CustomList from "../../../app/components/CustomList/CustomList";
 
 const RecipeDetail = () => {
   const params = useParams();
@@ -67,12 +68,10 @@ const RecipeDetail = () => {
                       </svg>
                     </div>
                     <div className="flex-grow">
-                      <h2 className="text-gray-900 text-lg title-font font-medium mb-3">
+                      <h2 className="text-lg title-font font-medium mb-3">
                         Ingredients
                       </h2>
-                      <p className="leading-relaxed text-base">
-                        {recipe.ingredients}
-                      </p>
+                      <CustomList listItems={recipe.ingredients} />
                     </div>
                   </div>
                   <div className="flex flex-col mb-10 lg:items-start items-center">
@@ -91,12 +90,10 @@ const RecipeDetail = () => {
                       </svg>
                     </div>
                     <div className="flex-grow">
-                      <h2 className="text-gray-900 text-lg title-font font-medium mb-3">
+                      <h2 className="text-lg title-font font-medium mb-3">
                         Instruction
                       </h2>
-                      <p className="leading-relaxed text-base">
-                        {recipe.instructions}
-                      </p>
+                      <CustomList listItems={recipe.instructions} />
                     </div>
                   </div>
                   {/* Render other recipe details here */}
