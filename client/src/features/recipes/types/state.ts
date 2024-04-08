@@ -13,8 +13,8 @@ export interface Recipe {
   _id?: number;
   title: string;
   description: string;
-  ingredients: string;
-  instructions: string;
+  ingredients: string[];
+  instructions: string[];
   image: string;
   user?: User
 }

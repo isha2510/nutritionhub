@@ -1,23 +1,28 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, KeyboardEvent, useRef, useState } from "react";
 import Breadcrumb from "../../../app/components/Breadcrumb/Breadcrumb";
 import { useCreateRecipeMutation } from "../../../app/api";
 import Alert from "../../../app/components/Alerts/Alert";
 import { Recipe } from "../types/state";
+import CustomList from "../../../app/components/CustomList/CustomList";
 
 const AddRecipe = () => {
 
-  interface RecipeFormData extends Recipe{
+  interface RecipeFormData extends Recipe {
   }
 
   const intialData: RecipeFormData = {
     title: "",
     description: "",
     image: "",
-    ingredients: "",
-    instructions: ""
+    ingredients: [],
+    instructions: []
   }
 
   const [recipeData, setRecipeData] = useState<RecipeFormData>(intialData);
+  const [ingredients, setIngredients] = useState<string[]>([]);
+  const [instructions, setInstructions] = useState<string[]>([]);
+
+  const formRef = useRef<HTMLFormElement>(null);
 
   const [createRecipe, { isError, isLoading, isSuccess, error }] = useCreateRecipeMutation();
 
@@ -29,9 +34,29 @@ const AddRecipe = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    console.log(recipeData);
-    createRecipe(recipeData);
+    const form = formRef.current;
+    if (form && !form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+    const data = { ...recipeData, ingredients, instructions };
+    console.log(data);
+    createRecipe(data);
     setRecipeData(intialData);
+    setIngredients([]);
+    setInstructions([]);
+  }
+
+  const handleInstructionOrIngredients = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      let { name, value } = (e.target as HTMLInputElement);
+      if (name === 'ingredients') {
+        setIngredients(prevVal => [...prevVal, value]);
+      } else {
+        setInstructions(prevVal => [...prevVal, value]);
+      }
+      e.currentTarget.value = '';
+    }
   }
 
   return (
@@ -117,14 +142,14 @@ const AddRecipe = () => {
 
         </div>
         <div className="flex flex-col gap-9">
-          {/* <!-- Contact Form --> */}
+          {/* <!-- Create recipe form--> */}
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
               <h3 className="font-medium text-black dark:text-white">
                 Create Recipe
               </h3>
             </div>
-            <form onSubmit={handleSubmit}>
+            <form ref={formRef}>
               <div className="p-6.5">
 
                 <div className="mb-4.5">
@@ -175,29 +200,37 @@ const AddRecipe = () => {
                   <label className="mb-2.5 block text-black dark:text-white">
                     Ingredients <span className="text-meta-1">*</span>
                   </label>
-                  <textarea
-                    required
-                    rows={3}
+                  <input
+                    autoComplete="off"
+                    type="text"
                     name="ingredients"
-                    value={recipeData.ingredients}
-                    onChange={handleOnChange}
-                    placeholder="Enter the ingredients"
+                    onKeyUp={handleInstructionOrIngredients}
+                    placeholder="Type Ingredient and press enter to add in list"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                  ></textarea>
+                  />
+
+                  <CustomList
+                    listItems={ingredients}
+                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary overflow-y-auto h-35"
+                  />
+
                 </div>
                 <div className="mb-6">
                   <label className="mb-2.5 block text-black dark:text-white">
                     Instructions <span className="text-meta-1">*</span>
                   </label>
-                  <textarea
-                    required
-                    rows={6}
+                  <input
+                    autoComplete="off"
+                    type="text"
                     name="instructions"
-                    value={recipeData.instructions}
-                    onChange={handleOnChange}
-                    placeholder="Enter the instructions"
+                    onKeyUp={handleInstructionOrIngredients}
+                    placeholder="Type Instructions and press enter to add in list"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                  ></textarea>
+                  />
+                  <CustomList
+                    listItems={instructions}
+                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary overflow-y-auto h-35"
+                  />
                 </div>
                 {isLoading ?
                   <button type="button" className="flex w-full justify-center items-center px-4 py-2 font-semibold leading-6 text-sm shadow rounded-md text-white bg-indigo-500 hover:bg-indigo-400 transition ease-in-out duration-150 cursor-not-allowed" disabled>
@@ -208,7 +241,9 @@ const AddRecipe = () => {
                     Processing...
                   </button>
                   :
-                  <button type="submit" className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
+                  <button type="button" className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90"
+                    onClick={handleSubmit}
+                  >
                     Submit Recipe
                   </button>}
               </div>
