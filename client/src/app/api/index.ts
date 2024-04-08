@@ -11,7 +11,7 @@ export const recipesApi = createApi({
       : "http://localhost:3001/api",
     headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
   }),
-
+  tagTypes: ['recipe'],
   endpoints: (builder) => ({
     getAllRecipes: builder.query<Recipe[], void>({
       query: () => "/recipe",

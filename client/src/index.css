@@ -8,23 +8,26 @@
   }
 }
 
-@layer components {
-}
+@layer components {}
 
 @layer utilities {
+
   /* Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
 
   .no-scrollbar {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
   }
 
   .chat-height {
     @apply h-[calc(100vh_-_8.125rem)] lg:h-[calc(100vh_-_5.625rem)];
   }
+
   .inbox-height {
     @apply h-[calc(100vh_-_8.125rem)] lg:h-[calc(100vh_-_5.625rem)];
   }
@@ -32,33 +35,47 @@
 
 /* third-party libraries CSS */
 
-.tableCheckbox:checked ~ div span {
+.tableCheckbox:checked~div span {
   @apply opacity-100;
 }
-.tableCheckbox:checked ~ div {
+
+.tableCheckbox:checked~div {
   @apply bg-primary border-primary;
 }
+
 .map-btn .jvm-zoom-btn {
   @apply flex items-center justify-center w-7.5 h-7.5 rounded border border-stroke dark:border-strokedark hover:border-primary dark:hover:border-primary bg-white hover:bg-primary text-body hover:text-white dark:text-bodydark dark:hover:text-white text-2xl leading-none px-0 pt-0 pb-0.5;
 }
+
 .mapOne .jvm-zoom-btn {
   @apply left-auto top-auto bottom-0;
 }
+
 .mapOne .jvm-zoom-btn.jvm-zoomin {
   @apply right-10;
 }
+
 .mapOne .jvm-zoom-btn.jvm-zoomout {
   @apply right-0;
 }
+
 .mapTwo .jvm-zoom-btn {
   @apply top-auto bottom-0;
 }
+
 .mapTwo .jvm-zoom-btn.jvm-zoomin {
   @apply left-0;
 }
+
 .mapTwo .jvm-zoom-btn.jvm-zoomout {
   @apply left-10;
 }
+
 [x-cloak] {
   display: none !important;
+}
+
+.custom-style-list {
+  list-style: square inside url('data:image/gif;base64,R0lGODlhBQAKAIABAAAAAP///yH5BAEAAAEALAAAAAAFAAoAAAIIjI+ZwKwPUQEAOw==');
+  list-style-position: outside;
 }
