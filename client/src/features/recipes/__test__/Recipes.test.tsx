@@ -6,6 +6,7 @@ import { screen, waitFor } from "@testing-library/react";
 import Dashboard from "../../dashboard/components/Dashboard";
 import userEvent from "@testing-library/user-event";
 import RecipeDetail from "../components/RecipeDetails";
+import AddRecipe from "../components/AddRecipe";
 
 vi.mock("@auth0/auth0-react", () => ({
   useAuth0: vi.fn().mockReturnValue({
@@ -72,6 +73,26 @@ describe("Recipes", () => {
     );
     const desc = await waitFor(() =>
       screen.getByRole("heading", { name: /description/i }),
+    );
+    expect(desc).toBeInTheDocument();
+  });
+  test("renders create recipe page", async () => {
+    const { rerender } = render(
+      <MemoryRouter initialEntries={["/recipes"]}>
+        <Recipes />
+      </MemoryRouter>,
+    );
+    await waitFor(() => screen.getByRole("link", { name: /create recipe/i }));
+    const addRecipe = screen.getByRole("link", { name: /Create Recipe/i });
+    await userEvent.click(addRecipe);
+    rerender(null);
+    render(
+      <MemoryRouter initialEntries={["/add-recipe"]}>
+        <AddRecipe />
+      </MemoryRouter>,
+    );
+    const desc = await waitFor(() =>
+      screen.getByRole("heading", { name: /Add The Recipe/i }),
     );
     expect(desc).toBeInTheDocument();
   });

@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Header from "./app/components/Header/Header";
+import Header from "./app/components/Header/pages/Header";
 import { Provider } from "react-redux";
 import { configureStoreWithMiddlewares } from "./app/store/store";
 import { Auth0Provider } from "@auth0/auth0-react";
