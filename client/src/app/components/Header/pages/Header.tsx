@@ -1,6 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
 import logo from "../../../assets/logo.png";
 import DarkModeSwitcher from "./DarkModeSwitcher";
 
@@ -10,7 +11,9 @@ const Header = () => {
 
   useEffect(() => {
     const getToken = async () => {
-      sessionStorage.setItem("token", await getAccessTokenSilently());
+      Cookies.set("token", await getAccessTokenSilently(), {
+        secure: true,
+      });
     };
     getToken();
   }, [getAccessTokenSilently]);
