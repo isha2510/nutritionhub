@@ -9,7 +9,7 @@ const LinkButton = ({ name, link }: LinkButtonProps) => {
   return (
     <Link
       to={link}
-      className="text-white py-2 px-4 rounded bg-purple-700 hover:bg-gradient-to-br from-purple-400 to-purple-900"
+      className="text-white py-2 px-4 rounded-lg sm:w-full bg-purple-700 hover:bg-gradient-to-br from-purple-400 to-purple-900"
     >
       {name}
     </Link>

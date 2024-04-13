@@ -1,16 +1,20 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import logo from "../../../assets/logo.png";
 import DarkModeSwitcher from "./DarkModeSwitcher";
+import { setToken } from "../slice/authSlice";
 
 const Header = () => {
   const { logout, isAuthenticated, loginWithRedirect, getAccessTokenSilently } =
     useAuth0();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getToken = async () => {
-      sessionStorage.setItem("token", await getAccessTokenSilently());
+      const token = await getAccessTokenSilently();
+      dispatch(setToken(token));
     };
     getToken();
   }, [getAccessTokenSilently]);
