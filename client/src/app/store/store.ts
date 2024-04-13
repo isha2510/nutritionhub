@@ -7,7 +7,7 @@ import authSlice from "../components/Header/slice/authSlice";
 export const configureStoreWithMiddlewares = (_initialState = {}): EnhancedStore => {
   const store = configureStore({
     reducer: {
-      token: authSlice,
+      auth: authSlice,
       [recipesApi.reducerPath]: recipesApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>

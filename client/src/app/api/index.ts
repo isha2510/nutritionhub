@@ -10,7 +10,7 @@ const baseQuery = fetchBaseQuery({
     ? "https://nutritionhub-api.netlify.app/api"
     : "http://localhost:3001/api",
   prepareHeaders: (headers, { getState }: { getState: () => RootState }) => {
-    const token = getState().token.token; // Access token from state using getState
+    const token = getState().auth.token; // Access token from state using getState
     if (token) {
       headers.set("Authorization", `Bearer ${token}`);
     }
