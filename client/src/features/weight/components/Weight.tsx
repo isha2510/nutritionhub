@@ -6,6 +6,7 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
+  ResponsiveContainer,
 } from "recharts";
 import LinkButton from "../../../app/components/Button/LinkButton";
 
@@ -47,26 +48,26 @@ const WeightChart = () => {
           <p className="text-sm font-medium">70Kg</p>
         </div>
       </div>
-      <LineChart
-        width={600}
-        height={200}
-        data={data}
-        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="date" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Line
-          type="monotone"
-          dataKey="weight"
-          stroke="#8884d8"
-          activeDot={{ r: 8 }}
-        />
-      </LineChart>
+      <ResponsiveContainer height={182}>
+        <LineChart
+          data={data}
+          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="date" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Line
+            type="monotone"
+            dataKey="weight"
+            stroke="#8884d8"
+            activeDot={{ r: 8 }}
+          />
+        </LineChart>
+      </ResponsiveContainer>
       <div className="p-5">
-        <LinkButton name="Update Target Weight" link="/updateweigth" />
+        <LinkButton name="Update Weight" link="/updateweigth" />
       </div>
     </div>
   );

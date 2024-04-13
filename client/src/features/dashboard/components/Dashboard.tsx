@@ -1,75 +1,34 @@
 import Card from "../../../app/components/Card/Card";
 import WeightChart from "../../weight/components/Weight";
-import nutritionist from "../../../app/assets/nutritionist.jpg";
-import exercise from "../../../app/assets/exercise.avif";
-import recipe from "../../../app/assets/recipe.jpeg";
-import report from "../../../app/assets/report.avif";
+import { cardsDetails } from "../utils/utils";
 
 const Dashboard = () => {
-  const cardsDetails = [
-    {
-      title: "Nutritionist Corner",
-      description:
-        "Find a nutritionist and take first step for the healthy diet.",
-      buttonName: "Find a Nutritionist",
-      buttonLink: "/nutritionist",
-      image: nutritionist,
-    },
-    {
-      title: "Recipes Corner",
-      description:
-        "Find the tasty recipes list and save your time while cooking.",
-      buttonName: "Find a Recipe",
-      buttonLink: "/recipes",
-      image: recipe,
-    },
-    {
-      title: "Exercise Corner",
-      description:
-        "Find the perfect exercise for yourself to achieve your goals.",
-      buttonName: "Check Out Exercises",
-      buttonLink: "/exercise",
-      image: exercise,
-    },
-    {
-      title: "Health Report Corner",
-      description:
-        "Here you can see your reports or upload new reports for analysis.",
-      buttonName: "See Reports/Upload Reports",
-      buttonLink: "/reports",
-      image: report,
-    },
-  ];
   return (
-    <div className="container mx-auto flex">
-      {/* <h1 className="text-3xl font-bold mb-4">Dashboard</h1> */}
-
-      <div className="flex flex-row p-4 flex-wrap">
-        {cardsDetails.slice(0, -1).map((cd, index) => {
+    <div>
+      <div className="mx-auto flex p-4 flex-wrap gap-8">
+        {cardsDetails.map((cd, index) => {
           return (
-            <div className="w-1/3 mb-4" key={index}>
-              <Card
-                title={cd.title}
-                buttonLink={cd.buttonLink}
-                buttonName={cd.buttonName}
-                description={cd.description}
-                image={cd.image}
-              />
+            <div
+              className="sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/4 mb-4"
+              key={index}
+            >
+              <div className="h-full">
+                <Card
+                  title={cd.title}
+                  buttonLink={cd.buttonLink}
+                  buttonName={cd.buttonName}
+                  description={cd.description}
+                  image={cd.image}
+                />
+              </div>
             </div>
           );
         })}
 
-        <div className="flex-grow mb-4">
+        <div className="lg:flex-grow-0 xl:flex-grow-0 md:flex-grow-0 sm:w-full md:w-full lg:w-1/2 xl:w-1/3 mb-4 sm:flex-grow">
+          {/* <div className="h-full flex"> */}
           <WeightChart />
-        </div>
-        <div className="w-1/3 mb-4">
-          <Card
-            title={cardsDetails[3].title}
-            buttonLink={cardsDetails[3].buttonLink}
-            buttonName={cardsDetails[3].buttonName}
-            description={cardsDetails[3].description}
-            image={cardsDetails[3].image}
-          />
+          {/* </div> */}
         </div>
       </div>
     </div>

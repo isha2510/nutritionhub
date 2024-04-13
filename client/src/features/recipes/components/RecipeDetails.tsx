@@ -7,8 +7,6 @@ import CustomList from "../../../app/components/CustomList/CustomList";
 const RecipeDetail = () => {
   const params = useParams();
   const id = params.id!;
-  console.log("id=", id);
-  //const { recipe } = location.state;
   const { data, isLoading, error } = useFetchRecipeByIdQuery(id);
   const recipe = data!;
   return (

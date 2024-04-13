@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Header from "./app/components/Header/Header";
+import Header from "./app/components/Header/pages/Header";
 import { Provider } from "react-redux";
 import { configureStoreWithMiddlewares } from "./app/store/store";
 import { Auth0Provider } from "@auth0/auth0-react";
@@ -27,11 +27,14 @@ export function WrappedApp() {
     <Auth0Provider
       domain="dev-j8r4za1686l0mkr7.uk.auth0.com"
       clientId="CERpYJbACTex2vjYNRYmX85eRKmvpHXO"
+      useRefreshTokens
+      useRefreshTokensFallback
       authorizationParams={{
         redirect_uri: `${window.location.origin}/dashboard`,
         audience: "https://www.nutritionhub.com",
         scope: "openid profile email offline_access",
       }}
+      cacheLocation="localstorage"
     >
       <Provider store={store}>
         <BrowserRouter>
