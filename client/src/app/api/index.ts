@@ -1,18 +1,26 @@
 // Or from '@reduxjs/toolkit/query' if not using the auto-generated hooks
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import Cookies from "js-cookie";
 import { Recipe } from "../../features/recipes/types/state";
+import { RootState } from "../store/store";
 
 // initialize an empty api service that we'll inject endpoints into later as needed
-const token = Cookies.get("token");
+
+const baseQuery = fetchBaseQuery({
+  baseUrl: window.location.origin.includes("netlify")
+    ? "https://nutritionhub-api.netlify.app/api"
+    : "http://localhost:3001/api",
+  prepareHeaders: (headers, { getState }: { getState: () => RootState }) => {
+    const token = getState().token.token; // Access token from state using getState
+    if (token) {
+      headers.set("Authorization", `Bearer ${token}`);
+    }
+    return headers;
+  },
+});
+
 export const recipesApi = createApi({
   reducerPath: "recipesApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: window.location.origin.includes("netlify")
-      ? "https://nutritionhub-api.netlify.app/api"
-      : "http://localhost:3001/api",
-    headers: { Authorization: `Bearer ${token}` },
-  }),
+  baseQuery,
   tagTypes: ["recipe"],
   endpoints: (builder) => ({
     getAllRecipes: builder.query<Recipe[], void>({

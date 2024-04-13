@@ -16,7 +16,7 @@ const Card = ({
   image,
 }: CardProps) => {
   return (
-    <div className="max-w-sm bg-white border-stroke rounded-lg shadow-default dark:border-strokedark dark:bg-boxdark">
+    <div className=" bg-white border-stroke rounded-lg shadow-default dark:border-strokedark dark:bg-boxdark">
       <img
         className="rounded-t-lg h-24 md:h-32 lg:h-48 object-cover w-full"
         src={image}
