@@ -48,6 +48,20 @@ const RecipeDetail = () => {
                         {recipe.description}
                       </p>
                     </div>
+                    <div className="flex-grow">
+                      <h2 className="text-gray-900 text-lg title-font font-medium mb-3">
+                        Cuisine
+                      </h2>
+                      <p className="leading-relaxed text-base">
+                        {recipe.cuisine}
+                      </p>
+                    </div>
+                    <div className="flex-grow">
+                      <h2 className="text-gray-900 text-lg title-font font-medium mb-3">
+                        Tags
+                      </h2>
+                      <p className="leading-relaxed text-base">{recipe.tags}</p>
+                    </div>
                   </div>
                   <div className="flex flex-col mb-10 lg:items-start items-center">
                     <div className="w-12 h-12 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5">

@@ -5,16 +5,18 @@ export interface RootState {
 }
 
 interface User {
-  _id: number,
-  email: string
+  _id: number;
+  email: string;
 }
 
 export interface Recipe {
   _id?: number;
   title: string;
   description: string;
+  cuisine: string;
   ingredients: string[];
   instructions: string[];
   image: string;
-  user?: User
+  user?: User;
+  tags?: string[];
 }

@@ -4,6 +4,8 @@ import MUser from "./User";
 export type TRecipe = {
   title: string;
   description: string;
+  cuisine: string;
+  tags: string[];
   ingredients: string[];
   instructions: string[];
   image: string;
@@ -19,6 +21,12 @@ const recipeSchema: Schema = new Schema({
   },
   description: {
     type: String
+  },
+  cuisine:{
+    type: String
+  },
+  tags:{
+    type:[String]
   },
   ingredients: [String],
   instructions: [String],
