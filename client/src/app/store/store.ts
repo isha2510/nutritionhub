@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { EnhancedStore, configureStore } from "@reduxjs/toolkit";
-import { recipesApi } from "../api";
+import { recipesApi } from "../../features/recipes/api/recipesApi";
 import authSlice from "../components/Header/slice/authSlice";
+import { tagsApi } from "../../features/recipes/api/tagsApi";
 
 // eslint-disable-next-line prettier/prettier, @typescript-eslint/no-unused-vars
 export const configureStoreWithMiddlewares = (_initialState = {}): EnhancedStore => {
@@ -9,9 +10,10 @@ export const configureStoreWithMiddlewares = (_initialState = {}): EnhancedStore
     reducer: {
       auth: authSlice,
       [recipesApi.reducerPath]: recipesApi.reducer,
+      [tagsApi.reducerPath]: tagsApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(recipesApi.middleware),
+      getDefaultMiddleware().concat(recipesApi.middleware, tagsApi.middleware),
   });
   return store;
 };

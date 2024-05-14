@@ -1,11 +1,12 @@
 /* eslint-disable react/no-unescaped-entities */
 import { ChangeEvent, FormEvent, KeyboardEvent, useRef, useState } from "react";
 import Breadcrumb from "../../../app/components/Breadcrumb/Breadcrumb";
-import { useCreateRecipeMutation } from "../../../app/api";
+import { useCreateRecipeMutation } from "../api/recipesApi";
 import Alert from "../../../app/components/Alerts/Alert";
-import { Recipe } from "../types/state";
+import { Recipe, Tag } from "../types/state";
 import CustomList from "../../../app/components/CustomList/CustomList";
 import AddRecipeSteps from "./AddRecipeSteps";
+import TagsInput from "./TagsInput";
 
 const AddRecipe = () => {
   interface RecipeFormData extends Recipe {}
@@ -23,12 +24,13 @@ const AddRecipe = () => {
   const [recipeData, setRecipeData] = useState<RecipeFormData>(intialData);
   const [ingredients, setIngredients] = useState<string[]>([]);
   const [instructions, setInstructions] = useState<string[]>([]);
+  const [tags, setTag] = useState<string[]>([]);
 
   const formRef = useRef<HTMLFormElement>(null);
 
   const [createRecipe, { isError, isLoading, isSuccess, error }] =
     useCreateRecipeMutation();
-
+  console.log(tags);
   const handleOnChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -44,7 +46,8 @@ const AddRecipe = () => {
       form.reportValidity();
       return;
     }
-    const data = { ...recipeData, ingredients, instructions };
+    const data = { ...recipeData, ingredients, instructions, tags };
+    console.log(tags);
     createRecipe(data);
     setRecipeData(intialData);
     setIngredients([]);
@@ -169,16 +172,7 @@ const AddRecipe = () => {
                   >
                     Tags <span className="text-meta-1">*</span>
                   </label>
-                  <input
-                    required
-                    type="text"
-                    id="tags"
-                    name="tags"
-                    value={recipeData.tags}
-                    onChange={handleOnChange}
-                    placeholder="#dessert#vegetarien"
-                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                  />
+                  <TagsInput setTag={setTag} />
                 </div>
                 <div className="mb-6">
                   <label

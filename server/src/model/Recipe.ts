@@ -1,5 +1,6 @@
 import { Document, Schema, Types, model } from "mongoose";
 import MUser from "./User";
+import MTags from "./Tags";
 
 export type TRecipe = {
   title: string;
@@ -22,12 +23,13 @@ const recipeSchema: Schema = new Schema({
   description: {
     type: String
   },
-  cuisine:{
+  cuisine: {
     type: String
   },
-  tags:{
-    type:[String]
-  },
+  tags: [{
+    type: Schema.Types.ObjectId,
+    ref: MTags
+  }],
   ingredients: [String],
   instructions: [String],
   image: String,

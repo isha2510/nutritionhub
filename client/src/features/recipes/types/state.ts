@@ -2,6 +2,9 @@ export interface RootState {
   recipes: {
     recipes: Recipe[]; // Replace Recipe with your actual recipe interface
   };
+  tags: {
+    tags: Tag[];
+  };
 }
 
 interface User {
@@ -18,5 +21,16 @@ export interface Recipe {
   instructions: string[];
   image: string;
   user?: User;
-  tags?: string[];
+  tags?: Tag[];
+}
+
+export interface Tag {
+  _id?: number;
+  sub?: string;
+  tag: string;
+}
+
+export interface Options extends Tag {
+  value: string;
+  lable: string;
 }

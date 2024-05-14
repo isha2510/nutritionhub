@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 import { Recipe } from "../types/state";
-import { useGetAllRecipesQuery } from "../../../app/api";
+import { useGetAllRecipesQuery } from "../api/recipesApi";
 import Breadcrumb from "../../../app/components/Breadcrumb/Breadcrumb";
 import Loading from "../../../app/components/Loader/Loading";
 import LinkButton from "../../../app/components/Button/LinkButton";
