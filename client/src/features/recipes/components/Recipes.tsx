@@ -4,23 +4,35 @@ import { useGetAllRecipesQuery } from "../api/recipesApi";
 import Breadcrumb from "../../../app/components/Breadcrumb/Breadcrumb";
 import Loading from "../../../app/components/Loader/Loading";
 import LinkButton from "../../../app/components/Button/LinkButton";
+import Search from "../../../app/components/Search/Search";
+import { useState } from "react";
 
 const Recipes = () => {
-  const { data: recipes, error, isLoading } = useGetAllRecipesQuery();
+  const { data, error, isLoading } = useGetAllRecipesQuery();
+  const [recipes, setRecipes] = useState(data);
   const navigate = useNavigate();
-
   const handleRecipeClick = (recipe: Recipe) => {
     navigate(`/recipes/${recipe._id}`); // Navigate to the RecipeDetail component
   };
-
+  const getSearchText = (text: string) => {
+    console.log(text);
+    const recipe = data?.filter((val) => {
+      const str = JSON.stringify(val).toLowerCase();
+      return str.includes(text.toLowerCase());
+    });
+    setRecipes(recipe);
+  };
   return (
     <div>
       <Loading isLoading={isLoading} error={error}>
         {recipes && (
           <>
             <Breadcrumb pageName="Recipes" prevPath={null} />
-            <div className="mb-2">
-              <LinkButton name={"Create Recipe"} link={"/add-recipe"} />
+            <div className="pb-4 flex items-center justify-between">
+              <Search getSearchText={getSearchText} />
+              <div className="ml-auto">
+                <LinkButton name={"Create Recipe"} link={"/add-recipe"} />
+              </div>
             </div>
             <section className="text-gray-600 body-font">
               <div className="mx-auto">
