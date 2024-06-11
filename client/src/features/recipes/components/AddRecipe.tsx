@@ -24,13 +24,12 @@ const AddRecipe = () => {
   const [recipeData, setRecipeData] = useState<RecipeFormData>(intialData);
   const [ingredients, setIngredients] = useState<string[]>([]);
   const [instructions, setInstructions] = useState<string[]>([]);
-  const [tags, setTag] = useState<string[]>([]);
+  const [tags, setTag] = useState<Tag[]>([]);
 
   const formRef = useRef<HTMLFormElement>(null);
 
   const [createRecipe, { isError, isLoading, isSuccess, error }] =
     useCreateRecipeMutation();
-  console.log(tags);
   const handleOnChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -47,7 +46,6 @@ const AddRecipe = () => {
       return;
     }
     const data = { ...recipeData, ingredients, instructions, tags };
-    console.log(tags);
     createRecipe(data);
     setRecipeData(intialData);
     setIngredients([]);

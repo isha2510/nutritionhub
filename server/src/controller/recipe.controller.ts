@@ -32,7 +32,9 @@ export async function createRecipe(req: CustomRequest, res: Response) {
     if (req.user) {
         const recipe = req.body as TRecipe;
         console.log(recipe);
-        const newRecipe = new MRecipe({ ...recipe, user: req.user._id });
+        const tags=req.body.tags.map((val:{tag:string})=>val.tag);
+        console.log(tags);
+        const newRecipe = new MRecipe({ ...recipe, user: req.user._id,tags:tags });
         await newRecipe.save();
         console.log(chalk.greenBright("Recipe created success.."));
         res.status(HttpStatus.CREATED).send();

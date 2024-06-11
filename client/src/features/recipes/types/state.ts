@@ -34,3 +34,9 @@ export interface Options extends Tag {
   value: string;
   lable: string;
 }
+
+export interface InputRecipeTag {
+  value: string;
+  label: string;
+  __isNew__?: boolean;
+}

@@ -5,7 +5,7 @@ import Breadcrumb from "../../../app/components/Breadcrumb/Breadcrumb";
 import Loading from "../../../app/components/Loader/Loading";
 import LinkButton from "../../../app/components/Button/LinkButton";
 import Search from "../../../app/components/Search/Search";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Recipes = () => {
   const { data, error, isLoading } = useGetAllRecipesQuery();
@@ -14,6 +14,7 @@ const Recipes = () => {
   const handleRecipeClick = (recipe: Recipe) => {
     navigate(`/recipes/${recipe._id}`); // Navigate to the RecipeDetail component
   };
+
   const getSearchText = (text: string) => {
     console.log(text);
     const recipe = data?.filter((val) => {
@@ -22,6 +23,11 @@ const Recipes = () => {
     });
     setRecipes(recipe);
   };
+
+  useEffect(() => {
+    setRecipes(data);
+  }, [data]);
+
   return (
     <div>
       <Loading isLoading={isLoading} error={error}>
@@ -43,7 +49,7 @@ const Recipes = () => {
                       key={recipe._id}
                       onClick={() => handleRecipeClick(recipe)}
                     >
-                      <div className="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
+                      <div className="h-full rounded-lg overflow-hidden border border-bodydark2 border-opacity-60">
                         <img
                           className="lg:h-48 md:h-36 w-full object-cover object-center"
                           src={recipe.image}
