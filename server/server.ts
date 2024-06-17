@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 import recipeRouter from './src/routes/recipe/recipe.router';
+import tagRouter from './src/routes/tag/tag.router';
 import connectDB from './src/config/database';
 import { jwtCheck, userCheck } from './src/middleware/auth';
 import chalk from 'chalk';
@@ -26,6 +27,7 @@ app.use(userCheck);
 // Your API routes
 
 app.use('/api/recipe', recipeRouter);
+app.use('/api/tag', tagRouter);
 // Start the server
 
 app.listen(port, () => {

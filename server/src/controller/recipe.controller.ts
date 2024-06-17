@@ -9,6 +9,9 @@ export async function findAll(req: Request, res: Response) {
     const recipes = await MRecipe.find({}).populate({
         path: "user",
         select: "email",
+    }).populate({
+        path: "tags",
+        select: "tag"
     }); // it gives us all recipes with user email
     res.send(recipes);
 };
@@ -17,7 +20,10 @@ export async function findByRecipeId(req: Request, res: Response) {
     const recipe = await MRecipe.findById(req.params.id).populate({
         path: "user",
         select: "email"
-    });
+    }).populate({
+        path: "tags",
+        select: "tag"
+    });;
     res.send(recipe);
 }
 
@@ -25,7 +31,10 @@ export async function createRecipe(req: CustomRequest, res: Response) {
     console.log(chalk.magentaBright("inside create Recipe:"), req.body as TRecipe);
     if (req.user) {
         const recipe = req.body as TRecipe;
-        const newRecipe = new MRecipe({ ...recipe, user: req.user._id });
+        console.log(recipe);
+        const tags=req.body.tags.map((val:{tag:string})=>val.tag);
+        console.log(tags);
+        const newRecipe = new MRecipe({ ...recipe, user: req.user._id,tags:tags });
         await newRecipe.save();
         console.log(chalk.greenBright("Recipe created success.."));
         res.status(HttpStatus.CREATED).send();

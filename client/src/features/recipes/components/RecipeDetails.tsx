@@ -1,6 +1,6 @@
 import { useParams } from "react-router"; // Assuming you're using React Router
 import Breadcrumb from "../../../app/components/Breadcrumb/Breadcrumb";
-import { useFetchRecipeByIdQuery } from "../../../app/api";
+import { useFetchRecipeByIdQuery } from "../api/recipesApi";
 import Loading from "../../../app/components/Loader/Loading";
 import CustomList from "../../../app/components/CustomList/CustomList";
 
@@ -46,6 +46,22 @@ const RecipeDetail = () => {
                       </h2>
                       <p className="leading-relaxed text-base">
                         {recipe.description}
+                      </p>
+                    </div>
+                    <div className="flex-grow">
+                      <h2 className="text-gray-900 text-lg title-font font-medium mb-3">
+                        Cuisine
+                      </h2>
+                      <p className="leading-relaxed text-base">
+                        {recipe.cuisine}
+                      </p>
+                    </div>
+                    <div className="flex-grow">
+                      <h2 className="text-gray-900 text-lg title-font font-medium mb-3">
+                        Tags
+                      </h2>
+                      <p className="leading-relaxed text-base">
+                        {recipe.tags?.map((t) => t.tag).join()}
                       </p>
                     </div>
                   </div>
