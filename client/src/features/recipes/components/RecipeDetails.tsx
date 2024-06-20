@@ -1,21 +1,54 @@
-import { useParams } from "react-router"; // Assuming you're using React Router
+import { useParams, useNavigate } from "react-router"; // Assuming you're using React Router
 import Breadcrumb from "../../../app/components/Breadcrumb/Breadcrumb";
 import { useFetchRecipeByIdQuery } from "../api/recipesApi";
 import Loading from "../../../app/components/Loader/Loading";
 import CustomList from "../../../app/components/CustomList/CustomList";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const RecipeDetail = () => {
   const params = useParams();
+  const { user } = useAuth0();
   const id = params.id!;
   const { data, isLoading, error } = useFetchRecipeByIdQuery(id);
   const recipe = data!;
+  const navigate = useNavigate();
+
+  const handleEditRecipe = () => {
+    navigate(`/edit-recipe/${id}`);
+  };
+
   return (
     <div className="mx-auto">
       <Loading isLoading={isLoading} error={error}>
         {recipe && (
           <>
             <Breadcrumb pageName="Recipe Details" prevPath="recipes" />
-            <h1 className="text-3xl font-bold mb-4">{recipe.title}</h1>
+            <div className="flex justify-between">
+              <h1 className="text-3xl font-bold mb-4">{recipe.title}</h1>
+              {user?.email === recipe.user?.email ? (
+                <button type="button" onClick={handleEditRecipe}>
+                  <svg
+                    className="feather feather-edit"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <title>Edit Recipe</title>
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                  </svg>
+                </button>
+              ) : (
+                ""
+              )}
+            </div>
+
             <section className="text-gray-600 body-font">
               <div className="px-5 py-2 mx-auto flex flex-wrap">
                 <div className="lg:w-1/2 w-full mb-10 lg:mb-0 rounded-lg overflow-hidden">

@@ -25,7 +25,7 @@ export interface Recipe {
 }
 
 export interface Tag {
-  _id?: number;
+  _id?: string;
   sub?: string;
   tag: string;
 }
@@ -36,7 +36,7 @@ export interface Options extends Tag {
 }
 
 export interface InputRecipeTag {
-  value: string;
+  value?: string;
   label: string;
   __isNew__?: boolean;
 }

@@ -10,6 +10,7 @@ import RecipeDetail from "../../../features/recipes/components/RecipeDetails";
 import About from "../About/About";
 import Profile from "../Profile/Profile";
 import AddRecipe from "../../../features/recipes/components/AddRecipe";
+import EditRecipe from "../../../features/recipes/components/EditRecipe";
 
 const routes: RouteObject[] = [
   {
@@ -77,6 +78,14 @@ const routes: RouteObject[] = [
     element: (
       <PrivateRoute>
         <AddRecipe />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: "/edit-recipe/:id",
+    element: (
+      <PrivateRoute>
+        <EditRecipe />
       </PrivateRoute>
     ),
   },
