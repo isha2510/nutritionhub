@@ -40,3 +40,8 @@ export interface InputRecipeTag {
   label: string;
   __isNew__?: boolean;
 }
+
+export type UpdateRecipeParams = {
+  id: string;
+  recipe: Recipe;
+};

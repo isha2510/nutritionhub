@@ -2,14 +2,14 @@ import { Document, Schema, model } from "mongoose";
 import MUser from "./User";
 
 export type TTags = {
-  sub: string; // id from auth0
+  user: string; // id from auth0
   tag: string;
 };
 
 export interface ITags extends TTags, Document { }
 
 const tagsSchema: Schema = new Schema({
-  sub: {
+  user: {
     type: Schema.Types.ObjectId,
     required: true,
     ref: MUser

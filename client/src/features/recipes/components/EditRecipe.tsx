@@ -11,7 +11,12 @@ import Breadcrumb from "../../../app/components/Breadcrumb/Breadcrumb";
 import { Recipe, Tag } from "../types/state";
 import RecipeForm from "./RecipeForm";
 import { useParams } from "react-router-dom";
-import { useFetchRecipeByIdQuery } from "../api/recipesApi";
+import {
+  useFetchRecipeByIdQuery,
+  useUpdateRecipeMutation,
+} from "../api/recipesApi";
+import AddRecipeSteps from "./AddRecipeSteps";
+import Alert from "../../../app/components/Alerts/Alert";
 
 const EditRecipe = () => {
   interface RecipeFormData extends Recipe {}
@@ -35,8 +40,8 @@ const EditRecipe = () => {
   const formRef = useRef<HTMLFormElement>(null);
 
   const { data: fetchedRecipe, isLoading } = useFetchRecipeByIdQuery(recipeId);
-  //   const [updateRecipe, { isError, isLoading, isSuccess, error }] =
-  //     useUpdateRecipeMutation();
+  const [updateRecipe, { isError, isSuccess, error }] =
+    useUpdateRecipeMutation();
 
   useEffect(() => {
     if (fetchedRecipe) {
@@ -65,7 +70,7 @@ const EditRecipe = () => {
     }
     const data = { ...recipeData, ingredients, instructions, tags };
     console.log("Updated data is", data);
-    // updateRecipe({ id: recipeId, ...data });
+    updateRecipe({ id: recipeId, recipe: data });
   };
 
   const handleInstructionOrIngredients = (
@@ -85,15 +90,16 @@ const EditRecipe = () => {
   return (
     <div className="mx-auto">
       <Breadcrumb pageName={"Edit Recipe"} prevPath={"recipes"} />
-      {/* {isSuccess && (
+      {isSuccess && (
         <Alert
           title="Recipe Updated Successfully"
           message="Your changes have been saved."
           type="success"
         />
-      )} */}
-      {/* {isError && <Alert message={JSON.stringify(error)} type="error" />} */}
+      )}
+      {isError && <Alert message={JSON.stringify(error)} type="error" />}
       <div className="grid grid-cols-1 gap-9 sm:grid-cols-2">
+        <AddRecipeSteps isEdit={true} />
         <div className="flex flex-col gap-9">
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">

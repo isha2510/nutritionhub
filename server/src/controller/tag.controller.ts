@@ -8,7 +8,7 @@ export async function createTag(req: CustomRequest, res: Response) {
     console.log(chalk.magentaBright("inside create Tag:"), req.body as TTags);
     if (req.user) {
         const tagData = {
-            sub: req.user._id,
+            user: req.user._id,
             tag: req.body.tag,
           };
         //const tag = req.body as TTags;
