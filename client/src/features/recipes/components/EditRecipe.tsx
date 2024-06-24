@@ -10,7 +10,7 @@ import Breadcrumb from "../../../app/components/Breadcrumb/Breadcrumb";
 //import Alert from "../../../app/components/Alerts/Alert";
 import { Recipe, Tag } from "../types/state";
 import RecipeForm from "./RecipeForm";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   useFetchRecipeByIdQuery,
   useUpdateRecipeMutation,
@@ -38,9 +38,10 @@ const EditRecipe = () => {
   const params = useParams();
   const recipeId = params.id!;
   const formRef = useRef<HTMLFormElement>(null);
+  const navigate = useNavigate();
 
   const { data: fetchedRecipe, isLoading } = useFetchRecipeByIdQuery(recipeId);
-  const [updateRecipe, { isError, isSuccess, error }] =
+  const [updateRecipe, { isError, isSuccess, isLoading: isFetching, error }] =
     useUpdateRecipeMutation();
 
   useEffect(() => {
@@ -52,6 +53,12 @@ const EditRecipe = () => {
       setEditTag(fetchedRecipe.tags || []);
     }
   }, [fetchedRecipe]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate(`/recipes/${recipeId}`);
+    }
+  }, [isSuccess]);
 
   const handleOnChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -90,13 +97,6 @@ const EditRecipe = () => {
   return (
     <div className="mx-auto">
       <Breadcrumb pageName={"Edit Recipe"} prevPath={"recipes"} />
-      {isSuccess && (
-        <Alert
-          title="Recipe Updated Successfully"
-          message="Your changes have been saved."
-          type="success"
-        />
-      )}
       {isError && <Alert message={JSON.stringify(error)} type="error" />}
       <div className="grid grid-cols-1 gap-9 sm:grid-cols-2">
         <AddRecipeSteps isEdit={true} />
@@ -115,7 +115,7 @@ const EditRecipe = () => {
                 handleOnChange={handleOnChange}
                 handleInstructionOrIngredients={handleInstructionOrIngredients}
                 handleSubmit={handleSubmit}
-                isLoading={isLoading}
+                isLoading={isFetching}
                 setTag={setEditTag}
                 tags={tags}
                 isEditRecipe={true}
