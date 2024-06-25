@@ -89,14 +89,11 @@ const EditRecipe = () => {
         if (ind !== undefined && ind > -1 && ind < ingredients.length) {
           setIngredients((prevVal) => {
             const updatedIngredients = [...prevVal];
-            const arr = [];
-            for (let i = 0; i < updatedIngredients.length; i++) {
-              if (i === ind) {
-                arr.push(value);
-              }
-              arr.push(updatedIngredients[i]);
-            }
-            return arr;
+            updatedIngredients.splice(ind, 0, value);
+            // splice will take index where the value needs to be added
+            // second parameter is the count of elements we want to delete
+            // third parameter is value we want to add
+            return updatedIngredients;
           });
         } else {
           // Add new item
@@ -106,14 +103,8 @@ const EditRecipe = () => {
         if (ind !== undefined && ind > -1 && ind < instructions.length) {
           setInstructions((prevVal) => {
             const updatedInstructions = [...prevVal];
-            const arr = [];
-            for (let i = 0; i < updatedInstructions.length; i++) {
-              if (i === ind) {
-                arr.push(value);
-              }
-              arr.push(updatedInstructions[i]);
-            }
-            return arr;
+            updatedInstructions.splice(ind, 0, value);
+            return updatedInstructions;
           });
         } else {
           // Add new item
