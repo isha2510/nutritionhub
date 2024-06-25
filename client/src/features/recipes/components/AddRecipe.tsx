@@ -96,6 +96,8 @@ const AddRecipe = () => {
               setTag={setTag}
               tags={tags}
               isEditRecipe={false}
+              setIngredients={setIngredients}
+              setInstructions={setInstructions}
             />
           </div>
         </div>

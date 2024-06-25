@@ -15,7 +15,7 @@ export const recipesApi = createApi({
     }),
     fetchRecipeById: builder.query<Recipe, string>({
       query: (id) => ({ url: `/recipe/${id}` }),
-      providesTags: (result, error, id) => [{ type: "recipe", id }],
+      providesTags: (_result, _error, id) => [{ type: "recipe", id }],
     }),
     createRecipe: builder.mutation<void, Recipe>({
       query: (recipe) => ({
@@ -30,7 +30,7 @@ export const recipesApi = createApi({
         method: "PUT",
         body: recipe,
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: "recipe", id }],
+      invalidatesTags: (_result, _error, { id }) => [{ type: "recipe", id }],
     }),
   }),
 });

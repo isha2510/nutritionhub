@@ -76,19 +76,49 @@ const EditRecipe = () => {
       return;
     }
     const data = { ...recipeData, ingredients, instructions, tags };
-    console.log("Updated data is", data);
     updateRecipe({ id: recipeId, recipe: data });
   };
 
   const handleInstructionOrIngredients = (
     e: KeyboardEvent<HTMLInputElement>,
+    ind?: number,
   ) => {
     if (e.key === "Enter") {
       const { name, value } = e.target as HTMLInputElement;
       if (name === "ingredients") {
-        setIngredients((prevVal) => [...prevVal, value]);
+        if (ind !== undefined && ind > -1 && ind < ingredients.length) {
+          setIngredients((prevVal) => {
+            const updatedIngredients = [...prevVal];
+            const arr = [];
+            for (let i = 0; i < updatedIngredients.length; i++) {
+              if (i === ind) {
+                arr.push(value);
+              }
+              arr.push(updatedIngredients[i]);
+            }
+            return arr;
+          });
+        } else {
+          // Add new item
+          setIngredients((prevVal) => [...prevVal, value]);
+        }
       } else if (name === "instructions") {
-        setInstructions((prevVal) => [...prevVal, value]);
+        if (ind !== undefined && ind > -1 && ind < instructions.length) {
+          setInstructions((prevVal) => {
+            const updatedInstructions = [...prevVal];
+            const arr = [];
+            for (let i = 0; i < updatedInstructions.length; i++) {
+              if (i === ind) {
+                arr.push(value);
+              }
+              arr.push(updatedInstructions[i]);
+            }
+            return arr;
+          });
+        } else {
+          // Add new item
+          setInstructions((prevVal) => [...prevVal, value]);
+        }
       }
       e.currentTarget.value = "";
     }
@@ -119,6 +149,8 @@ const EditRecipe = () => {
                 setTag={setEditTag}
                 tags={tags}
                 isEditRecipe={true}
+                setInstructions={setInstructions}
+                setIngredients={setIngredients}
               />
             ) : (
               <div>Loading...</div>

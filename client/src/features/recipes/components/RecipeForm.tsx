@@ -5,6 +5,7 @@ import React, {
   Dispatch,
   SetStateAction,
   useRef,
+  useState,
 } from "react";
 import CustomList from "../../../app/components/CustomList/CustomList";
 import TagsInput from "./TagsInput";
@@ -19,10 +20,15 @@ interface RecipeFormProps {
   };
   ingredients: string[];
   instructions: string[];
+  setInstructions: Dispatch<SetStateAction<string[]>>;
+  setIngredients: Dispatch<SetStateAction<string[]>>;
   handleOnChange: (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => void;
-  handleInstructionOrIngredients: (e: KeyboardEvent<HTMLInputElement>) => void;
+  handleInstructionOrIngredients: (
+    e: KeyboardEvent<HTMLInputElement>,
+    args?: number,
+  ) => void;
   handleSubmit: (e: FormEvent) => void;
   isLoading: boolean;
   setTag: Dispatch<SetStateAction<Tag[]>>;
@@ -41,8 +47,40 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
   setTag,
   tags = [],
   isEditRecipe,
+  setInstructions,
+  setIngredients,
 }) => {
   const formRef = useRef<HTMLFormElement>(null);
+  const ingredientsRef = useRef<HTMLInputElement>(null);
+  const instructionRef = useRef<HTMLInputElement>(null);
+  const [inputValue, setInputValue] = useState("");
+  const [instructionValue, setInstructionValue] = useState("");
+  const [index, setIndex] = useState(-1);
+  const handleIngredientsEdit = (args: string, ind: number) => {
+    if (ingredientsRef.current) {
+      ingredientsRef.current.focus();
+    }
+    setInputValue(args);
+    setIndex(ind);
+    setIngredients((prev) => prev.filter((item) => item !== args));
+  };
+
+  const handleInstructionEdit = (args: string, ind: number) => {
+    if (instructionRef.current) {
+      instructionRef.current.focus();
+    }
+    setInstructionValue(args);
+    setIndex(ind);
+    setInstructions((prev) => prev.filter((item) => item !== args));
+  };
+
+  const onKeyUp = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      setInputValue("");
+      setInstructionValue("");
+      handleInstructionOrIngredients(e, index);
+    }
+  };
 
   return (
     <form ref={formRef}>
@@ -140,17 +178,21 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
             Ingredients <span className="text-meta-1">*</span>
           </label>
           <input
+            ref={ingredientsRef}
             autoComplete="off"
             type="text"
             name="ingredients"
+            value={inputValue}
             id="ingredients"
-            onKeyUp={handleInstructionOrIngredients}
+            onKeyUp={onKeyUp}
+            onChange={(e) => setInputValue(e.target.value)}
             placeholder="Type Ingredient and press enter to add in list"
             className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
           />
           <CustomList
             listItems={ingredients}
             className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary overflow-y-auto h-35"
+            handleEdit={handleIngredientsEdit}
           />
         </div>
 
@@ -162,17 +204,21 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
             Instructions <span className="text-meta-1">*</span>
           </label>
           <input
+            ref={instructionRef}
             autoComplete="off"
             type="text"
             name="instructions"
             id="instructions"
-            onKeyUp={handleInstructionOrIngredients}
+            value={instructionValue}
+            onChange={(e) => setInstructionValue(e.target.value)}
+            onKeyUp={onKeyUp}
             placeholder="Type Instructions and press enter to add in list"
             className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
           />
           <CustomList
             listItems={instructions}
             className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary overflow-y-auto h-35"
+            handleEdit={handleInstructionEdit}
           />
         </div>
 

@@ -4,6 +4,7 @@ import { useFetchRecipeByIdQuery } from "../api/recipesApi";
 import Loading from "../../../app/components/Loader/Loading";
 import CustomList from "../../../app/components/CustomList/CustomList";
 import { useAuth0 } from "@auth0/auth0-react";
+import EditButton from "../../../app/components/Button/EditButton";
 
 const RecipeDetail = () => {
   const params = useParams();
@@ -26,24 +27,7 @@ const RecipeDetail = () => {
             <div className="flex justify-between">
               <h1 className="text-3xl font-bold mb-4">{recipe.title}</h1>
               {user?.email === recipe.user?.email ? (
-                <button type="button" onClick={handleEditRecipe}>
-                  <svg
-                    className="feather feather-edit"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <title>Edit Recipe</title>
-                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                  </svg>
-                </button>
+                <EditButton handleEdit={handleEditRecipe} />
               ) : (
                 ""
               )}
@@ -118,7 +102,10 @@ const RecipeDetail = () => {
                       <h2 className="text-lg title-font font-medium mb-3">
                         Ingredients
                       </h2>
-                      <CustomList listItems={recipe.ingredients} />
+                      <CustomList
+                        listItems={recipe.ingredients}
+                        isDetail={true}
+                      />
                     </div>
                   </div>
                   <div className="flex flex-col mb-10 lg:items-start items-center">
@@ -140,7 +127,10 @@ const RecipeDetail = () => {
                       <h2 className="text-lg title-font font-medium mb-3">
                         Instruction
                       </h2>
-                      <CustomList listItems={recipe.instructions} />
+                      <CustomList
+                        listItems={recipe.instructions}
+                        isDetail={true}
+                      />
                     </div>
                   </div>
                   {/* Render other recipe details here */}
