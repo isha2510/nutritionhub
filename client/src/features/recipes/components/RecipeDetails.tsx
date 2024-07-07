@@ -1,21 +1,38 @@
-import { useParams } from "react-router"; // Assuming you're using React Router
+import { useParams, useNavigate } from "react-router"; // Assuming you're using React Router
 import Breadcrumb from "../../../app/components/Breadcrumb/Breadcrumb";
 import { useFetchRecipeByIdQuery } from "../api/recipesApi";
 import Loading from "../../../app/components/Loader/Loading";
 import CustomList from "../../../app/components/CustomList/CustomList";
+import { useAuth0 } from "@auth0/auth0-react";
+import EditButton from "../../../app/components/Button/EditButton";
 
 const RecipeDetail = () => {
   const params = useParams();
+  const { user } = useAuth0();
   const id = params.id!;
   const { data, isLoading, error } = useFetchRecipeByIdQuery(id);
   const recipe = data!;
+  const navigate = useNavigate();
+
+  const handleEditRecipe = () => {
+    navigate(`/edit-recipe/${id}`);
+  };
+
   return (
     <div className="mx-auto">
       <Loading isLoading={isLoading} error={error}>
         {recipe && (
           <>
             <Breadcrumb pageName="Recipe Details" prevPath="recipes" />
-            <h1 className="text-3xl font-bold mb-4">{recipe.title}</h1>
+            <div className="flex justify-between">
+              <h1 className="text-3xl font-bold mb-4">{recipe.title}</h1>
+              {user?.email === recipe.user?.email ? (
+                <EditButton handleEdit={handleEditRecipe} />
+              ) : (
+                ""
+              )}
+            </div>
+
             <section className="text-gray-600 body-font">
               <div className="px-5 py-2 mx-auto flex flex-wrap">
                 <div className="lg:w-1/2 w-full mb-10 lg:mb-0 rounded-lg overflow-hidden">
@@ -85,7 +102,10 @@ const RecipeDetail = () => {
                       <h2 className="text-lg title-font font-medium mb-3">
                         Ingredients
                       </h2>
-                      <CustomList listItems={recipe.ingredients} />
+                      <CustomList
+                        listItems={recipe.ingredients}
+                        isDetail={true}
+                      />
                     </div>
                   </div>
                   <div className="flex flex-col mb-10 lg:items-start items-center">
@@ -107,7 +127,10 @@ const RecipeDetail = () => {
                       <h2 className="text-lg title-font font-medium mb-3">
                         Instruction
                       </h2>
-                      <CustomList listItems={recipe.instructions} />
+                      <CustomList
+                        listItems={recipe.instructions}
+                        isDetail={true}
+                      />
                     </div>
                   </div>
                   {/* Render other recipe details here */}

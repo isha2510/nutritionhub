@@ -1,54 +1,55 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from "react";
 import { useCreateTagMutation, useGetAllTagsQuery } from "../api/tagsApi";
-import { debounce } from "../../../app/utility";
 import ReactSelectCreatable from "react-select/creatable";
 import { InputRecipeTag, Tag } from "../types/state";
+import { useMemo } from "react";
 
 interface tagsInputProps {
   setTag: (tags: Tag[]) => void;
+  defaultTags?: Tag[];
 }
 
-const TagsInput = ({ setTag }: tagsInputProps) => {
-  const { data } = useGetAllTagsQuery();
-  const [inputValue, setInputValue] = useState<InputRecipeTag[]>([]);
-  const [createTag] = useCreateTagMutation();
-  const availableTags = data?.map((res) => ({
-    value: res._id,
-    label: res.tag,
+const transformTagToOption = (tags: Tag[]): InputRecipeTag[] => {
+  return tags.map((tag) => ({
+    value: tag._id,
+    label: tag.tag,
   }));
-  const handleInputChange = debounce((newValue: []) => {
-    setInputValue(newValue);
-  }, 1000);
+};
 
-  const newTag = () => {
-    for (const tag of inputValue) {
+const TagsInput = ({ setTag, defaultTags = [] }: tagsInputProps) => {
+  const { data } = useGetAllTagsQuery();
+  const [createTag] = useCreateTagMutation();
+
+  // Memoize options to avoid re-rendering on every render
+  const availableTags = useMemo(() => {
+    if (!data) return [];
+    return transformTagToOption(data);
+  }, [data]);
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleInputChange = (newValue: readonly any[], _actionMeta: any) => {
+    newTag(newValue);
+    const tags = newValue.map((t) => ({ _id: t.value, tag: t.label }));
+    setTag(tags);
+  };
+
+  const newTag = (val: readonly InputRecipeTag[]) => {
+    for (const tag of val) {
       if (tag?.__isNew__) {
         createTag({ tag: tag?.label });
       }
     }
   };
 
-  useEffect(() => {
-    newTag();
-  }, [inputValue]);
-
-  const handleBlur = () => {
-    const arr = inputValue.map((val: { value: string }) => ({
-      tag: val.value,
-    }));
-    setTag(arr);
-  };
   return (
-    <div className="tags-input">
+    <div className="tags-input dark:bg-form-input text-black">
       <ReactSelectCreatable
-        options={availableTags?.map((val) => ({
-          value: val.value,
-          label: val.label,
-        }))}
+        className="my-react-select-container"
+        classNamePrefix={"my-react-select"}
+        options={availableTags}
         onChange={handleInputChange}
         isMulti
-        onBlur={handleBlur}
+        value={transformTagToOption(defaultTags)}
       />
     </div>
   );

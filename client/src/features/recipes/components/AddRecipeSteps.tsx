@@ -1,5 +1,8 @@
 /* eslint-disable react/no-unescaped-entities */
-const AddRecipeSteps = () => {
+interface AddRecipeStepsProps {
+  isEdit: boolean;
+}
+const AddRecipeSteps = ({ isEdit }: AddRecipeStepsProps) => {
   return (
     <div className="flex flex-col gap-9">
       <div className="flex flex-wrap">
@@ -31,7 +34,7 @@ const AddRecipeSteps = () => {
             </div>
             <div className="flex-grow sm:pl-6 mt-6 sm:mt-0">
               <h2 className="font-medium title-font text-black dark:text-white mb-1 text-xl">
-                Add The Recipe
+                {isEdit ? "Edit the Recipe" : "Add the Recipe"}
               </h2>
               <p className="leading-relaxed">
                 During this step, users input all the necessary details for
