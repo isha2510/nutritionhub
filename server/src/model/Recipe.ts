@@ -11,6 +11,8 @@ export type TRecipe = {
   instructions: string[];
   image: string;
   user: string;
+  isApproved: boolean;
+  approvedBy?: string;
 };
 
 export interface IRecipe extends TRecipe, Document { }
@@ -37,6 +39,14 @@ const recipeSchema: Schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: MUser,
     required: true
+  },
+  isApproved: {
+    type: Boolean,
+    default: false
+  },
+  approvedBy: {
+    type: Schema.Types.ObjectId,
+    ref: MUser
   }
 
 }, { timestamps: true });

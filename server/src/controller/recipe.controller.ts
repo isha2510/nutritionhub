@@ -7,7 +7,14 @@ import MTags, { TTags } from "../model/Tags";
 
 
 export async function findAll(req: Request, res: Response) {
-    const recipes = await MRecipe.find({}).populate({
+    const filter: any = {};
+    
+    // Apply isApproved filter if present in query
+    if (req.query.isApproved !== undefined) {
+        filter.isApproved = req.query.isApproved === 'true';
+    }
+    
+    const recipes = await MRecipe.find(filter).populate({
         path: "user",
         select: "email",
     }).populate({
@@ -64,4 +71,57 @@ export async function deleteByRecipeId(req: Request, res: Response) {
     const recipeToDelete = await MRecipe.findByIdAndDelete(req.params.id);
     console.log(chalk.greenBright("Recipe deleted successfully"), recipeToDelete);
     res.status(HttpStatus.OK).send(recipeToDelete);
+}
+
+export async function findPendingApprovalRecipes(req: Request, res: Response) {
+    const pendingRecipes = await MRecipe.find({ isApproved: false }).populate({
+        path: "user",
+        select: "email",
+    });
+    res.send(pendingRecipes);
+}
+
+export async function approveRecipe(req: CustomRequest, res: Response) {
+    try {
+        const recipeId = req.params.id;
+        
+        if (!req.user) {
+            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({ error: 'Admin user info not found' });
+        }
+
+        const recipe = await MRecipe.findById(recipeId);
+        
+        if (!recipe) {
+            return res.status(HttpStatus.NOT_FOUND).send({ error: 'Recipe not found' });
+        }
+
+        recipe.isApproved = true;
+        recipe.approvedBy = req.user._id;
+        await recipe.save();
+        
+        console.log(chalk.greenBright(`Recipe ${recipeId} approved by admin ${req.user.email}`));
+        res.status(HttpStatus.OK).send({ message: 'Recipe approved successfully', recipe });
+    } catch (error) {
+        console.error(chalk.redBright('Error approving recipe:'), error);
+        res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({ error: 'Failed to approve recipe' });
+    }
+}
+
+export async function rejectRecipe(req: Request, res: Response) {
+    try {
+        const recipeId = req.params.id;
+        const { reason } = req.body;
+        
+        const recipe = await MRecipe.findByIdAndDelete(recipeId);
+        
+        if (!recipe) {
+            return res.status(HttpStatus.NOT_FOUND).send({ error: 'Recipe not found' });
+        }
+        
+        console.log(chalk.yellowBright(`Recipe ${recipeId} rejected. Reason: ${reason}`));
+        res.status(HttpStatus.OK).send({ message: 'Recipe rejected and removed', recipe });
+    } catch (error) {
+        console.error(chalk.redBright('Error rejecting recipe:'), error);
+        res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({ error: 'Failed to reject recipe' });
+    }
 }

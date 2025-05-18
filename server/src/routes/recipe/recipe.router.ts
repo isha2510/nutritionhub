@@ -5,7 +5,14 @@ import { hasRole } from '../../middleware/auth';
 
 const router = Router();
 
-router.get('/', hasRole('user','admin'), findAll);
+// Middleware to filter only approved recipes
+const filterApprovedRecipes = (req: Request, res: Response, next: NextFunction) => {
+    req.query.isApproved = 'true'; // Only return approved recipes
+    next();
+};
+
+// Routes
+router.get('/', hasRole('user','admin'), filterApprovedRecipes, findAll);
 router.post('/', hasRole('user','admin'), createRecipe);
 router.get('/:id', hasRole('user','admin'), findByRecipeId);
 router.put('/:id', hasRole('user','admin'), editByRecipeId);
