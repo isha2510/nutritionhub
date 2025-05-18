@@ -27,11 +27,11 @@ export function App() {
 export function WrappedApp() {
   const store = configureStoreWithMiddlewares();
   
-  // Get the appropriate redirect URI with trailing slash
+  // Get the appropriate redirect URI
   const getRedirectUri = () => {
     return window.location.origin.includes("netlify")
-      ? "https://nutritionhub-app.netlify.app/dashboard/"
-      : `${window.location.origin}/dashboard/`;
+      ? "https://nutritionhub-app.netlify.app/dashboard"
+      : `${window.location.origin}/dashboard`;
   };
   
   // Use localStorage if available, otherwise fall back to memory

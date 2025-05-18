@@ -141,29 +141,25 @@ const refreshToken = async (): Promise<string> => {
       throw new Error("User not authenticated");
     }
     
-    // Configure token options
-    const tokenOptions: any = {
-      cacheMode: 'off', // Force a fresh token
+    // Special handling for Safari on iOS to avoid ITP issues
+    const tokenOptions = {
+      cacheMode: 'off' as const, // Force a fresh token
+      timeoutInSeconds: 60, // Longer timeout for mobile networks
     };
-    
-    // For Safari on iOS, use a different approach
-    if (isSafari() && isIOS()) {
-      console.log("Using Safari iOS optimized token refresh");
-      // On Safari/iOS, we need a more conservative approach
-      Object.assign(tokenOptions, {
-        detailedResponse: true, // Get more details about the token response
-      });
+
+    // Safari-specific handling to prevent ITP issues
+    if (isSafari()) {
+      try {
+        // For Safari, try a direct approach first
+        console.log("Using Safari-specific auth flow");
+        return await getTokenForSafari(auth0, tokenOptions);
+      } catch (safariError) {
+        console.warn("Safari-specific approach failed, trying standard flow", safariError);
+        // Fall back to standard flow if Safari-specific approach fails
+      }
     }
     
-    // Get the token
-    const response = await auth0.getTokenSilently(tokenOptions);
-    
-    // Handle both normal token response and detailed response
-    const token = typeof response === 'string' ? response : response.access_token;
-    
-    if (!token) {
-      throw new Error("Failed to get access token");
-    }
+    const token = await auth0.getTokenSilently(tokenOptions);
     
     // Parse token to get expiration time
     const payload = parseJwt(token);
@@ -182,11 +178,8 @@ const refreshToken = async (): Promise<string> => {
     return token;
   } catch (error: any) {
     // Handle specific errors for Safari on iOS
-    if (isSafari() && isIOS()) {
-      if (error.error === 'login_required' || error.error === 'consent_required') {
-        console.warn("Safari iOS auth issue detected - needs manual login");
-        // Here we just rethrow, and the calling code will redirect to login
-      }
+    if (isSafari() && isIOS() && (error.error === 'login_required' || error.error === 'consent_required')) {
+      console.warn("Safari iOS auth issue detected - needs manual login");
     }
     
     // Handle rate limiting errors
@@ -202,6 +195,51 @@ const refreshToken = async (): Promise<string> => {
     
     throw error;
   }
+};
+
+/**
+ * Special token getter for Safari to avoid ITP issues
+ */
+const getTokenForSafari = async (auth0Client: Auth0Client, options: any): Promise<string> => {
+  try {
+    // Try to use a more direct approach for Safari
+    const response = await auth0Client.getTokenSilently({
+      ...options,
+      authorizationParams: {
+        // Adding a nonce can help with Safari's tracking prevention
+        nonce: generateRandomString(16),
+        // Adding prompt=none avoids opening a popup in some cases
+        prompt: 'none'
+      },
+    });
+    
+    // Handle response format (string or object)
+    const token = typeof response === 'string' ? response : response.access_token;
+    
+    if (!token) {
+      throw new Error("No token received from Auth0");
+    }
+    
+    return token;
+  } catch (error) {
+    console.error("Safari token refresh failed:", error);
+    throw error;
+  }
+};
+
+/**
+ * Generate a random string for nonce values
+ */
+const generateRandomString = (length: number): string => {
+  const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * charset.length);
+    result += charset[randomIndex];
+  }
+  
+  return result;
 };
 
 /**

@@ -16,4 +16,18 @@ export default defineConfig({
       reporter: ["text", "json", "html", "lcov"],
     },
   },
+  build: {
+    sourcemap: false, // Disable source maps in production
+  },
+  server: {
+    // Configure CORS for development server
+    cors: true,
+    // Force the CORS headers for .map files to fix Safari issues
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET",
+      "Cross-Origin-Embedder-Policy": "require-corp",
+      "Cross-Origin-Opener-Policy": "same-origin",
+    },
+  },
 });
