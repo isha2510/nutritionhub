@@ -1,5 +1,17 @@
 import { Auth0Client } from '@auth0/auth0-spa-js';
 
+// Check if localStorage is available and working
+export const isLocalStorageAvailable = (): boolean => {
+  try {
+    const testKey = '__storage_test__';
+    localStorage.setItem(testKey, testKey);
+    localStorage.removeItem(testKey);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
 // Auth0 configuration
 const auth0Config = {
   domain: "dev-j8r4za1686l0mkr7.uk.auth0.com", // Get from env or config
@@ -7,7 +19,7 @@ const auth0Config = {
   audience: "https://www.nutritionhub.com", // Get from env or config
   scope: "openid profile email offline_access",
   useRefreshTokens: true,
-  cacheLocation: "localstorage"
+  cacheLocation: isLocalStorageAvailable() ? "localstorage" : "memory"
 };
 
 // Create a singleton instance of the Auth0 client
@@ -19,11 +31,30 @@ interface TokenCache {
   expiresAt: number; // timestamp when token expires
 }
 
+// In-memory fallback if localStorage is not available
 let tokenCache: TokenCache | null = null;
 let tokenRefreshPromise: Promise<string> | null = null;
 let lastRateLimitHit: number | null = null;
 let retryAfterMs: number = 0;
 const TOKEN_EXPIRY_BUFFER = 60 * 1000; // 1 minute buffer before expiration
+
+// Detect if the browser is Safari
+const isSafari = (): boolean => {
+  if (typeof window !== 'undefined') {
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    return userAgent.includes('safari') && !userAgent.includes('chrome');
+  }
+  return false;
+};
+
+// Detect if we're on iOS
+const isIOS = (): boolean => {
+  if (typeof window !== 'undefined') {
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    return /iphone|ipad|ipod/.test(userAgent);
+  }
+  return false;
+};
 
 /**
  * Returns an instance of the Auth0 client
@@ -41,6 +72,7 @@ export const getAuth0Client = async (): Promise<Auth0Client> => {
         scope: auth0Config.scope,
       },
       useRefreshTokens: auth0Config.useRefreshTokens,
+      // Use the appropriate cache location
       cacheLocation: auth0Config.cacheLocation as 'localstorage' | 'memory',
     });
     
@@ -109,9 +141,29 @@ const refreshToken = async (): Promise<string> => {
       throw new Error("User not authenticated");
     }
     
-         const token = await auth0.getTokenSilently({
-       cacheMode: 'off' // Force a fresh token
-     });
+    // Configure token options
+    const tokenOptions: any = {
+      cacheMode: 'off', // Force a fresh token
+    };
+    
+    // For Safari on iOS, use a different approach
+    if (isSafari() && isIOS()) {
+      console.log("Using Safari iOS optimized token refresh");
+      // On Safari/iOS, we need a more conservative approach
+      Object.assign(tokenOptions, {
+        detailedResponse: true, // Get more details about the token response
+      });
+    }
+    
+    // Get the token
+    const response = await auth0.getTokenSilently(tokenOptions);
+    
+    // Handle both normal token response and detailed response
+    const token = typeof response === 'string' ? response : response.access_token;
+    
+    if (!token) {
+      throw new Error("Failed to get access token");
+    }
     
     // Parse token to get expiration time
     const payload = parseJwt(token);
@@ -129,6 +181,14 @@ const refreshToken = async (): Promise<string> => {
     
     return token;
   } catch (error: any) {
+    // Handle specific errors for Safari on iOS
+    if (isSafari() && isIOS()) {
+      if (error.error === 'login_required' || error.error === 'consent_required') {
+        console.warn("Safari iOS auth issue detected - needs manual login");
+        // Here we just rethrow, and the calling code will redirect to login
+      }
+    }
+    
     // Handle rate limiting errors
     if (error.error === 'access_denied' && error.error_description === 'Too Many Requests') {
       lastRateLimitHit = Date.now();

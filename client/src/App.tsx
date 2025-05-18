@@ -6,6 +6,7 @@ import { configureStoreWithMiddlewares } from "./app/store/store";
 import { Auth0Provider } from "@auth0/auth0-react";
 import routes from "./app/components/Private-Route/routes";
 import FavoritesInitializer from "./features/favorites/api/FavoritesInitializer";
+import { isLocalStorageAvailable } from "./app/utils/auth0-helper";
 
 export function App() {
   return (
@@ -26,6 +27,16 @@ export function App() {
 export function WrappedApp() {
   const store = configureStoreWithMiddlewares();
   
+  // Get the appropriate redirect URI with trailing slash
+  const getRedirectUri = () => {
+    return window.location.origin.includes("netlify")
+      ? "https://nutritionhub-app.netlify.app/dashboard/"
+      : `${window.location.origin}/dashboard/`;
+  };
+  
+  // Use localStorage if available, otherwise fall back to memory
+  const cacheLocation = isLocalStorageAvailable() ? 'localstorage' : 'memory';
+  
   return (
     <Auth0Provider
       domain="dev-j8r4za1686l0mkr7.uk.auth0.com"
@@ -33,14 +44,22 @@ export function WrappedApp() {
       useRefreshTokens
       useRefreshTokensFallback
       authorizationParams={{
-        redirect_uri: `${window.location.origin}/dashboard`,
+        redirect_uri: getRedirectUri(),
         audience: "https://www.nutritionhub.com",
         scope: "openid profile email offline_access",
       }}
-      cacheLocation="localstorage"
+      cacheLocation={cacheLocation}
       auth0Client={{
         name: "nutrition-hub-app",
         version: "1.0.0"
+      }}
+      onRedirectCallback={(appState) => {
+        // Handle redirect more explicitly to ensure it works on Safari iOS
+        window.history.replaceState(
+          {},
+          document.title,
+          appState?.returnTo || window.location.pathname
+        );
       }}
     >
       <Provider store={store}>

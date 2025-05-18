@@ -1,7 +1,13 @@
 import { fetchBaseQuery, FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { RootState } from "../store/store";
 import { getAccessToken } from "../utils/auth0-helper";
-import { getApiBaseUrl } from "../utils/ngrok-helper";
+
+// Get the API base URL based on environment
+export const getApiBaseUrl = (): string => {
+  return window.location.origin.includes("netlify")
+    ? "https://nutritionhub-api.netlify.app/api"
+    : "http://localhost:3001/api";
+};
 
 // Create a base query that handles token refresh
 export const baseQuery = fetchBaseQuery({
