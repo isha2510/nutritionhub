@@ -28,10 +28,24 @@ export function WrappedApp() {
   const store = configureStoreWithMiddlewares();
   
   // Get the appropriate redirect URI
+  // IMPORTANT: This must match EXACTLY what's configured in Auth0 dashboard
   const getRedirectUri = () => {
-    return window.location.origin.includes("netlify")
-      ? "https://nutritionhub-app.netlify.app/dashboard"
+    // Detect mobile devices
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    
+    // Get base URL without any encoding
+    let redirectUrl = window.location.origin.includes("netlify")
+      ? "https://nutritionhub.netlify.app/dashboard"
       : `${window.location.origin}/dashboard`;
+    
+    // For mobile devices, ensure we're using a properly formatted URL
+    if (isMobile) {
+      // Ensure the URL is normalized exactly as Auth0 expects it
+      const url = new URL(redirectUrl);
+      return url.toString();
+    }
+    
+    return redirectUrl;
   };
   
   // Use localStorage if available, otherwise fall back to memory
