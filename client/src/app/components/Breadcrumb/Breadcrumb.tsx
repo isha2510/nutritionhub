@@ -19,8 +19,7 @@ const Breadcrumb = ({ pageName, prevPath }: BreadcrumbProps) => {
           </li>
           {prevPath && (
             <Link className="font-medium" to={`/${prevPath}`}>
-              {prevPath.at(0)?.toUpperCase()}
-              {prevPath.slice(1)} /
+              {prevPath.length > 0 ? prevPath.charAt(0).toUpperCase() + prevPath.slice(1) : prevPath} /
             </Link>
           )}
           <li className="font-medium text-primary">{pageName}</li>

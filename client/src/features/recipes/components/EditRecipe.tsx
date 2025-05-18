@@ -29,12 +29,15 @@ const EditRecipe = () => {
     ingredients: [],
     instructions: [],
     tags: [],
+    prepTime: "",
+    cookTime: "",
   };
 
   const [recipeData, setRecipeData] = useState<RecipeFormData>(initialData);
   const [ingredients, setIngredients] = useState<string[]>([]);
   const [instructions, setInstructions] = useState<string[]>([]);
   const [tags, setEditTag] = useState<Tag[]>([]);
+  const [showApprovalAlert, setShowApprovalAlert] = useState(false);
   const params = useParams();
   const recipeId = params.id!;
   const formRef = useRef<HTMLFormElement>(null);
@@ -56,9 +59,14 @@ const EditRecipe = () => {
 
   useEffect(() => {
     if (isSuccess) {
+      setShowApprovalAlert(true);
+      // Navigate back to recipe page after showing the alert for a moment
+      const timer = setTimeout(() => {
       navigate(`/recipes/${recipeId}`);
+      }, 3000);
+      return () => clearTimeout(timer);
     }
-  }, [isSuccess]);
+  }, [isSuccess, navigate, recipeId]);
 
   const handleOnChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -75,7 +83,22 @@ const EditRecipe = () => {
       form.reportValidity();
       return;
     }
-    const data = { ...recipeData, ingredients, instructions, tags };
+    
+    // Ensure prepTime and cookTime are included (even if empty strings)
+    const data = {
+      ...recipeData,
+      ingredients,
+      instructions,
+      tags,
+      prepTime: recipeData.prepTime || "",
+      cookTime: recipeData.cookTime || ""
+    };
+    
+    console.log("Updating recipe with time info:", {
+      prepTime: data.prepTime,
+      cookTime: data.cookTime
+    });
+    
     updateRecipe({ id: recipeId, recipe: data });
   };
 
@@ -118,7 +141,17 @@ const EditRecipe = () => {
   return (
     <div className="mx-auto">
       <Breadcrumb pageName={"Edit Recipe"} prevPath={"recipes"} />
+      
+      {showApprovalAlert && (
+        <Alert
+          title="Recipe Updated"
+          message="Your recipe has been updated and is now pending approval. You'll be redirected to the recipe page."
+          type="success"
+        />
+      )}
+      
       {isError && <Alert message={JSON.stringify(error)} type="error" />}
+      
       <div className="grid grid-cols-1 gap-9 sm:grid-cols-2">
         <AddRecipeSteps isEdit={true} />
         <div className="flex flex-col gap-9">
@@ -127,6 +160,9 @@ const EditRecipe = () => {
               <h3 className="font-medium text-black dark:text-white">
                 Edit Recipe
               </h3>
+              <p className="text-sm text-bodydark mt-1">
+                Note: Edited recipes will require re-approval before being publicly visible.
+              </p>
             </div>
             {!isLoading ? (
               <RecipeForm
@@ -144,7 +180,7 @@ const EditRecipe = () => {
                 setIngredients={setIngredients}
               />
             ) : (
-              <div>Loading...</div>
+              <div className="p-6 text-center">Loading...</div>
             )}
           </div>
         </div>

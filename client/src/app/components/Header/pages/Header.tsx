@@ -5,11 +5,13 @@ import { useDispatch } from "react-redux";
 import logo from "../../../assets/logo.png";
 import DarkModeSwitcher from "./DarkModeSwitcher";
 import { setToken } from "../slice/authSlice";
+import { useHasAdminRole } from "../../../utils/auth-utils";
 
 const Header = () => {
   const { logout, isAuthenticated, loginWithRedirect, getAccessTokenSilently } =
     useAuth0();
   const dispatch = useDispatch();
+  const isAdmin = useHasAdminRole();
 
   useEffect(() => {
     const getToken = async () => {
@@ -35,6 +37,11 @@ const Header = () => {
             <Link to="/about" className="mr-4">
               About
             </Link>
+            {isAdmin && (
+              <Link to="/admin" className="mr-4">
+                Admin
+              </Link>
+            )}
             <Link to="/profile" className="mr-4">
               Profile
             </Link>

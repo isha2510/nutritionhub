@@ -1,0 +1,59 @@
+/* Recipe details specific styling */
+
+/* Apply custom container for lists */
+.recipe-list-container {
+  max-height: 400px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+/* Webkit scrollbar customization */
+.recipe-list-container::-webkit-scrollbar {
+  width: 0.375rem;
+}
+
+.recipe-list-container::-webkit-scrollbar-thumb {
+  background-color: #e2e8f0;
+  border-radius: 0.25rem;
+}
+
+.dark .recipe-list-container::-webkit-scrollbar-thumb {
+  background-color: #2e3a47;
+}
+
+/* Only add padding-right on larger screens */
+@media (min-width: 1024px) {
+  .recipe-list-container {
+    padding-right: 0.375rem;
+  }
+}
+
+/* Improved list item spacing */
+.custom-recipe-list ul li {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+.instructions ul li {
+  padding-top: 0.875rem;
+  padding-bottom: 0.875rem;
+}
+
+/* Recipe image container */
+.recipe-image-container {
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Recipe description card */
+.recipe-info-card {
+  background-color: #ffffff;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.dark .recipe-info-card {
+  background-color: #1a222c;
+} 

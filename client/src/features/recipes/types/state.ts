@@ -22,6 +22,11 @@ export interface Recipe {
   image: string;
   user?: User;
   tags?: Tag[];
+  isApproved?: boolean;
+  rejectionReason?: string;
+  approvedBy?: string;
+  prepTime?: string;
+  cookTime?: string;
 }
 
 export interface Tag {
@@ -45,3 +50,8 @@ export type UpdateRecipeParams = {
   id: string;
   recipe: Recipe;
 };
+
+export interface RejectionParams {
+  id: string;
+  reason: string;
+}

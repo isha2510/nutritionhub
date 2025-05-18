@@ -11,9 +11,14 @@ export type TRecipe = {
   instructions: string[];
   image: string;
   user: string;
+  isApproved: boolean;
+  approvedBy?: string;
+  rejectionReason?: string;
+  prepTime?: string;
+  cookTime?: string;
 };
 
-export interface IRecipe extends TRecipe, Document { }
+export interface IRecipe extends Omit<Document, keyof TRecipe>, TRecipe { }
 
 const recipeSchema: Schema = new Schema({
   title: {
@@ -37,10 +42,37 @@ const recipeSchema: Schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: MUser,
     required: true
+  },
+  isApproved: {
+    type: Boolean,
+    default: false
+  },
+  approvedBy: {
+    type: Schema.Types.ObjectId,
+    ref: MUser
+  },
+  rejectionReason: {
+    type: String
+  },
+  prepTime: {
+    type: String
+  },
+  cookTime: {
+    type: String
   }
 
 }, { timestamps: true });
 
+recipeSchema.virtual('prepTimeFormatted').get(function() {
+  return this.prepTime || '';
+});
+
+recipeSchema.virtual('cookTimeFormatted').get(function() {
+  return this.cookTime || '';
+});
+
+recipeSchema.set('toObject', { virtuals: true });
+recipeSchema.set('toJSON', { virtuals: true });
 
 const MReceipe = model<IRecipe>('recipes', recipeSchema);
 
