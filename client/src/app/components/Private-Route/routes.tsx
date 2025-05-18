@@ -11,6 +11,8 @@ import About from "../About/About";
 import Profile from "../Profile/Profile";
 import AddRecipe from "../../../features/recipes/components/AddRecipe";
 import EditRecipe from "../../../features/recipes/components/EditRecipe";
+import AdminDashboard from "../../../features/admin/components/AdminDashboard";
+import AdminRoute from "./AdminRoute";
 
 const routes: RouteObject[] = [
   {
@@ -103,6 +105,14 @@ const routes: RouteObject[] = [
       <PrivateRoute>
         <Profile />
       </PrivateRoute>
+    ),
+  },
+  {
+    path: "/admin",
+    element: (
+      <AdminRoute>
+        <AdminDashboard />
+      </AdminRoute>
     ),
   },
 ];

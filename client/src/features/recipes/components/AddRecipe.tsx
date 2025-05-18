@@ -17,6 +17,8 @@ const AddRecipe = () => {
     ingredients: [],
     instructions: [],
     tags: [],
+    prepTime: "",
+    cookTime: "",
   };
 
   const [recipeData, setRecipeData] = useState<RecipeFormData>(initialData);
@@ -44,7 +46,22 @@ const AddRecipe = () => {
       form.reportValidity();
       return;
     }
-    const data = { ...recipeData, ingredients, instructions, tags };
+    
+    // Ensure prepTime and cookTime are included (even if empty strings)
+    const data = { 
+      ...recipeData,
+      ingredients, 
+      instructions, 
+      tags,
+      prepTime: recipeData.prepTime || "",
+      cookTime: recipeData.cookTime || ""
+    };
+    
+    console.log("Submitting recipe with time info:", {
+      prepTime: data.prepTime,
+      cookTime: data.cookTime
+    });
+    
     createRecipe(data);
     setRecipeData(initialData);
     setIngredients([]);

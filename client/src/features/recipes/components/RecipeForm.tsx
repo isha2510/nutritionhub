@@ -17,6 +17,8 @@ interface RecipeFormProps {
     description: string;
     cuisine: string;
     image: string;
+    prepTime?: string;
+    cookTime?: string;
   };
   ingredients: string[];
   instructions: string[];
@@ -156,6 +158,42 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
             value={recipeData.image}
             onChange={handleOnChange}
             placeholder="Enter Recipe image url"
+            className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+          />
+        </div>
+
+        <div className="mb-4.5">
+          <label
+            className="mb-2.5 block text-black dark:text-white"
+            htmlFor="prepTime"
+          >
+            Prep Time
+          </label>
+          <input
+            type="text"
+            name="prepTime"
+            id="prepTime"
+            value={recipeData.prepTime}
+            onChange={handleOnChange}
+            placeholder="Enter Prep Time"
+            className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+          />
+        </div>
+
+        <div className="mb-4.5">
+          <label
+            className="mb-2.5 block text-black dark:text-white"
+            htmlFor="cookTime"
+          >
+            Cook Time
+          </label>
+          <input
+            type="text"
+            name="cookTime"
+            id="cookTime"
+            value={recipeData.cookTime}
+            onChange={handleOnChange}
+            placeholder="Enter Cook Time"
             className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
           />
         </div>
