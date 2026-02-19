@@ -1,6 +1,16 @@
 import Anthropic from "@anthropic-ai/sdk";
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const client = new Anthropic();
+
+function extractJSON(text: string): string {
+  // Strip markdown code fences if present (```json ... ``` or ``` ... ```)
+  const fenced = text.match(/```(?:json)?\s*([\s\S]*?)```/);
+  if (fenced) return fenced[1].trim();
+  return text.trim();
+}
 
 export interface RecipeData {
   title: string;
@@ -95,7 +105,7 @@ Respond ONLY with a valid JSON object (no markdown, no code fences) matching thi
 Be accurate with nutritional estimates based on standard ingredient portions.`;
 
   const message = await client.messages.create({
-    model: "claude-sonnet-4-5-20250929",
+    model: "claude-haiku-4-5-20251001",
     max_tokens: 1024,
     messages: [{ role: "user", content: prompt }],
   });
@@ -104,7 +114,7 @@ Be accurate with nutritional estimates based on standard ingredient portions.`;
     message.content[0].type === "text" ? message.content[0].text : "";
 
   try {
-    return JSON.parse(responseText) as RecipeInsights;
+    return JSON.parse(extractJSON(responseText)) as RecipeInsights;
   } catch {
     throw new Error("Failed to parse AI nutrition analysis response");
   }
@@ -139,7 +149,7 @@ Respond ONLY with a valid JSON object (no markdown, no code fences):
 }`;
 
   const message = await client.messages.create({
-    model: "claude-sonnet-4-5-20250929",
+    model: "claude-haiku-4-5-20251001",
     max_tokens: 1024,
     messages: [{ role: "user", content: prompt }],
   });
@@ -148,7 +158,7 @@ Respond ONLY with a valid JSON object (no markdown, no code fences):
     message.content[0].type === "text" ? message.content[0].text : "";
 
   try {
-    return JSON.parse(responseText) as DashboardInsights;
+    return JSON.parse(extractJSON(responseText)) as DashboardInsights;
   } catch {
     throw new Error("Failed to parse AI dashboard insights response");
   }
