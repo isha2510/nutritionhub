@@ -5,7 +5,7 @@ import recipeRouter from '../../src/routes/recipe/recipe.router';
 import tagRouter from '../../src/routes/tag/tag.router';
 import adminRouter from '../../src/routes/admin/admin.router';
 import favoriteRouter from '../../src/routes/favorite/favorite.router';
-import aiRouter from '.../../src/routes/ai/ai.router';
+import aiRouter from '../../src/routes/ai/ai.router';
 import connectDB from '../../src/config/database';
 import { jwtCheck, userCheck } from '../../src/middleware/auth';
 import chalk from 'chalk';
