@@ -6,6 +6,7 @@ import NutritionSummaryCard from './NutritionSummaryCard';
 import ActivityProgressCard from './ActivityProgressCard';
 import { cardsDetails } from "../utils/utils";
 import Breadcrumb from "../../../app/components/Breadcrumb/Breadcrumb";
+import DashboardAICard from "../../ai/components/DashboardAICard";
 
 const Dashboard = () => {
   // Set document title when component mounts
@@ -44,6 +45,11 @@ const Dashboard = () => {
         </div>
       </div>
       
+      {/* AI Nutrition Insights */}
+      <div className="mt-6 mb-6">
+        <DashboardAICard />
+      </div>
+
       {/* Quick Access Cards */}
       <h3 className="text-xl font-semibold mt-7.5 mb-3 text-black dark:text-white">
         Quick Access

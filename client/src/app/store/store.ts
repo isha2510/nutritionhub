@@ -4,6 +4,7 @@ import { recipesApi } from "../../features/recipes/api/recipesApi";
 import authSlice from "../components/Header/slice/authSlice";
 import { tagsApi } from "../../features/recipes/api/tagsApi";
 import { favoritesApi } from "../../features/favorites/api/favoritesApi";
+import { aiApi } from "../../features/ai/api/aiApi";
 
 // eslint-disable-next-line prettier/prettier, @typescript-eslint/no-unused-vars
 export const configureStoreWithMiddlewares = (_initialState = {}): EnhancedStore => {
@@ -13,12 +14,14 @@ export const configureStoreWithMiddlewares = (_initialState = {}): EnhancedStore
       [recipesApi.reducerPath]: recipesApi.reducer,
       [tagsApi.reducerPath]: tagsApi.reducer,
       [favoritesApi.reducerPath]: favoritesApi.reducer,
+      [aiApi.reducerPath]: aiApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(
-        recipesApi.middleware, 
+        recipesApi.middleware,
         tagsApi.middleware,
-        favoritesApi.middleware
+        favoritesApi.middleware,
+        aiApi.middleware
       ),
   });
   return store;
