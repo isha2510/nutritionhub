@@ -95,7 +95,7 @@ Respond ONLY with a valid JSON object (no markdown, no code fences) matching thi
 Be accurate with nutritional estimates based on standard ingredient portions.`;
 
   const message = await client.messages.create({
-    model: "claude-haiku-4-5-20251001",
+    model: "claude-sonnet-4-5-20250929",
     max_tokens: 1024,
     messages: [{ role: "user", content: prompt }],
   });
@@ -139,7 +139,7 @@ Respond ONLY with a valid JSON object (no markdown, no code fences):
 }`;
 
   const message = await client.messages.create({
-    model: "claude-haiku-4-5-20251001",
+    model: "claude-sonnet-4-5-20250929",
     max_tokens: 1024,
     messages: [{ role: "user", content: prompt }],
   });
