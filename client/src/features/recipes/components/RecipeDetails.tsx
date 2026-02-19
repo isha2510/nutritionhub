@@ -9,6 +9,7 @@ import "../styles/recipeDetails.css";
 import { useCountFavoritesQuery } from "../../favorites/api/favoritesApi";
 import { FaTags, FaClock, FaGlobe, FaHeart, FaShare, FaPrint, FaExclamationTriangle } from 'react-icons/fa';
 import { HeartIcon } from "../../../app/components/Icons/Icons";
+import RecipeAIInsights from "../../ai/components/RecipeAIInsights";
 
 // Static favorite icon component (non-interactive)
 const StaticFavoriteIcon = ({ 
@@ -64,13 +65,6 @@ const RecipeDetail = () => {
   const clockIcon = <FaClock className="w-5 h-5" />;
   const cuisineIcon = <FaGlobe className="w-5 h-5" />;
 
-  // Nutrition facts (placeholder values - would come from the recipe data)
-  const nutritionItems = [
-    { name: 'Calories', value: '320', unit: 'kcal' },
-    { name: 'Protein', value: '12', unit: 'g' },
-    { name: 'Carbs', value: '42', unit: 'g' },
-    { name: 'Fat', value: '10', unit: 'g' },
-  ];
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
@@ -202,25 +196,6 @@ const RecipeDetail = () => {
                     </ul>
                   </div>
 
-                  {/* Nutrition facts */}
-                  <div className="border-t border-stroke dark:border-strokedark">
-                    <div className="p-6">
-                      <h3 className="font-semibold mb-3 text-black dark:text-white">Estimated Nutrition Facts</h3>
-                      <div className="grid grid-cols-2 gap-3">
-                        {nutritionItems.map((item, index) => (
-                          <div key={index} className="bg-gray-50 dark:bg-meta-4 p-3 rounded text-center">
-                            <span className="block text-xl font-bold text-black dark:text-white">
-                              {item.value}
-                              <span className="text-xs ml-1 font-normal text-bodydark">{item.unit}</span>
-                            </span>
-                            <span className="text-xs text-bodydark">{item.name}</span>
-                          </div>
-                        ))}
-                      </div>
-                      <p className="text-xs text-bodydark mt-3 text-center">*Estimated values - actual may vary</p>
-                    </div>
-                  </div>
-
                   {isRecipeOwner && (
                     <div className="p-6 border-t border-stroke dark:border-strokedark">
                       <button
@@ -247,6 +222,9 @@ const RecipeDetail = () => {
                     </div>
                   </div>
                 )}
+
+                {/* AI Nutrition Analysis */}
+                <RecipeAIInsights recipeId={id} />
               </div>
 
               {/* Main content area */}

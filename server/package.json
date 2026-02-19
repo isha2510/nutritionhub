@@ -15,6 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.77.0",
     "@netlify/functions": "^2.6.0",
     "axios": "^1.6.8",
     "chalk": "^4.1.2",
